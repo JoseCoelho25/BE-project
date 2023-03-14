@@ -38,7 +38,7 @@ useEffect(() => {
 return (
     <div className="bg-black w-1/2 xl:w-1/3 mx-auto p-10 my-20 border-2 border-gray-700">
     <h2 className="text-6xl text-center text-white">Shop Easy</h2>
-    <p className="text-center text-2xl tracking-wider my-10 text-white">Faça login para começar a comprar!</p>
+    <p className="text-center text-2xl tracking-wider my-10 text-white">Registe-se para começar a comprar!</p>
     <form onSubmit={handleSubmit} className="border-b-2 border-gray-800 grid grid-cols-1 gap-y-4">
         <input type="text" placeholder="Nome" className="py-2 pl-2" onChange={(e)=> setName(e.target.value)} value={name || ''} />
         <input type="email" placeholder="E-mail" className="py-2 pl-2" onChange={(e)=> setEmail(e.target.value)} value={email || ''} />

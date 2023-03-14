@@ -6,6 +6,7 @@ const errorHandler = require('./middleware/error');
 const fileupload = require('express-fileupload');
 const connectDB = require('./config/db');
 const colors = require('colors');
+const cors = require('cors')
 
 
 // Route files
@@ -23,6 +24,8 @@ const app = express();
 // Body parser
 app.use(express.json());
 
+//Solve CORS
+app.use(cors({ credentials: true, origin: "http://localhost:5173"}))
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
