@@ -20,7 +20,7 @@ const productSchema = new Schema({
         required: true
     },
     category: {
-        type: String,
+        type: Array,
         required: true
     },
     userId: {

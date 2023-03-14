@@ -9,7 +9,8 @@ const colors = require('colors');
 
 
 // Route files
-
+const shop = require('./routes/shop')
+const admin = require('./routes/admin')
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -34,7 +35,8 @@ app.use(fileupload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-
+app.use('/api/', shop);
+app.use('/api/admin', admin)
 
 app.use(errorHandler);
 

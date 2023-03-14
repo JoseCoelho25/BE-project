@@ -1,0 +1,30 @@
+[
+    {
+		"_id": "5d713995b721c3bb38c1f5d0",
+		"userId": "5d7a514b5d2c12c7449be045",
+		"title": "CAMISOLA TIPO POLO DE MALHA EM ALGODÃO - SEDA",
+        "price": "39.95",
+		"description": "Polo de malha tecida em fios com mistura de algodão e seda. Decote redondo com fecho de botões à frente, manga comprida. Acabamentos em nervuras.",
+		"imageUrl": "https://static.zara.net/photos///2023/V/0/2/p/0077/405/401/2/w/850/0077405401_1_1_1.jpg?ts=1678178207246",
+		"category": ["Polo","Homem"]
+	},
+    {
+		"_id": "5d713995b721c3bb38c1f5d1",
+		"userId": "5d7a514b5d2c12c7449be045",
+		"title": "SWEATER DE ALGODÃO - SEDA",
+        "price": "39.95",
+		"description": "Sweater leve tecida em fios com mistura de algodão e seda. Decote redondo e manga comprida. Acabamentos em nervuras.",
+		"imageUrl": "https://static.zara.net/photos///2023/V/0/2/p/0077/400/707/2/w/850/0077400707_1_1_1.jpg?ts=1678438062164",
+		"category": ["Sweater","Homem"]
+	},
+    {
+		"_id": "5d713995b721c3bb38c1f5d2",
+		"userId": "5d7a514b5d2c12c7449be045",
+		"title": "TRENCH CRUZADA IMPERMEÁVEL",
+        "price": "89.95",
+		"description": "Trench de gola com abas e manga comprida. Bolsos com abertura debruada na anca e pormenor de bolso interior. Cinto do mesmo tecido na cintura. Bainha com abertura central atrás. Fecho à frente com botões cruzados.",
+		"imageUrl": "https://static.zara.net/photos///2023/V/0/2/p/5854/400/800/2/w/850/5854400800_1_1_1.jpg?ts=1675423506462",
+		"category": ["Trench-coat","Homem"]
+	}
+    
+]
