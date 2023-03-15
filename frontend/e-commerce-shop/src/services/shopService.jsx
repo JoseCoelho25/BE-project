@@ -9,6 +9,9 @@ const getAllProducts = async () => {
     return response;
 };
 
+
+
 export default {
-    getAllProducts
+    getAllProducts,
+    
 };
