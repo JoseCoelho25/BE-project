@@ -21,15 +21,17 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className='grid grid-cols-2 mx-8 gap-y-10 mb-20'>
       {products.map((product) => (
-        <div key={product._id}>
-          <h2>{product.title}</h2>
-          <p>{product.price}</p>
+        <div key={product._id} >
           <img src={product.imageUrl} alt="clothes imgs" srcset="" />
-          <p>{product.description}</p>
-          </div>))}
+          <div className='grid grid-cols-2 mr-20'>
+            <h2>{product.title}</h2>
+            <p className='text-end'>{product.price}€</p>
           </div>
+          {/* <p>{product.description}</p> */}
+        </div>))}
+    </div>
   )
 }
 
