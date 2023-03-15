@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts } from '../../slices/shopSlice';
 
-const Home = () => {
+const Home = ({product}) => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.shop.products);
   const status = useSelector((state) => state.shop.status);
@@ -24,7 +24,7 @@ const Home = () => {
     <div className='grid grid-cols-2 mx-8 gap-y-10 mb-20'>
       {products.map((product) => (
         <div key={product._id} >
-          <img src={product.imageUrl} alt="clothes imgs" srcset="" />
+          <img src={product.imageUrl} alt="clothes imgs" />
           <div className='grid grid-cols-2 mr-20'>
             <h2>{product.title}</h2>
             <p className='text-end'>{product.price}€</p>

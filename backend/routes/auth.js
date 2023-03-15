@@ -8,8 +8,8 @@ const router = express.Router();
 const { userCreateValidation, loginValidation } = require('../middleware/userValidations');
 
 
-router.post('/register',userCreateValidation(),validate, register);
-router.post('/login',loginValidation(),validate, login);
+router.post('/register', register);
+router.post('/login', login);
 router.get('/logout', logout);
 
 module.exports = router;
