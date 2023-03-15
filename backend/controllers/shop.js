@@ -9,5 +9,8 @@ exports.getProducts = asyncHandler(async(req,res,next) => {
 })
 
 exports.getProduct = asyncHandler(async(req,res,next) => {
-    res.send('get single product works')
+
+    const product = await Product.findById(req.params.productId)
+
+    res.status(201).json({success:true, data:product})
 })
