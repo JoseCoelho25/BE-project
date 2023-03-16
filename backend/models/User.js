@@ -29,6 +29,11 @@ password: {
 },
 resetPasswordToken: String,
 resetPasswordExpire: Date,
+cart: {
+    items: [{
+        productId: {type: Schema.Types.ObjectId, ref: 'Product', required: true}, 
+        quantity: {type: Number, required: true}}]
+},
 createdAt: {
     type: Date,
     default: Date.now
