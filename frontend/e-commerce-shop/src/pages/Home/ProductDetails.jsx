@@ -21,10 +21,15 @@ const ProductDetails = () => {
   }, [productId]);
 
   return (
-    <div>
+    <div className='flex justify-end mb-20'>
+      <img src={product?.data?.imageUrl} alt="product-img" className='w-1/3'/>
+      <div className='w-1/3 p-48 '>
+        <h1>{product?.data?.title}</h1>
+        <p className='mb-10'>{product?.data?.price} EUR</p>
+        <p className='text-sm tracking-wide leading-loose'>{product?.data?.description}</p>
+        <button className='mt-20 border w-full border-black p-2 bg'>Adicionar ao carrinho</button>
+      </div>
       
-      <img src={product?.data?.imageUrl} alt="product-img" />
-      <p>{product?.data?.title}</p>
     </div>
   );
 };
