@@ -19,7 +19,7 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
 
 exports.postCart = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.body._id);
-    console.log(product._id);
+    //console.log(product._id.toString());
   
     // Extract user ID from JWT token
     const token = req.headers.authorization.split(' ')[1];
@@ -31,10 +31,11 @@ exports.postCart = asyncHandler(async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
-  
+    //console.log(user.cart.items[0])
     // Check if the product is already in the cart
-    const cartItemIndex = user.cart.items.findIndex(item => item.productId.equals(product._id));
-
+    
+    const cartItemIndex = user.cart.items.findIndex(item => item.productId.toString() === product._id.toString());
+    //console.log(cartItemIndex)
     if (cartItemIndex >= 0) {
       // If the product is already in the cart, update the quantity
       user.cart.items[cartItemIndex].quantity++ ;
@@ -44,7 +45,10 @@ exports.postCart = asyncHandler(async (req, res, next) => {
         productId: product._id,
         quantity: 1
       });
-    }++
+    }
+    //console.log(user)
+    //const updatedUser = await User.findByIdAndUpdate(user.id)
 
-    res.status(200).json({ success: true, data: user.cart.items });
+    res.status(200).json({ success: true, data: user.cart.items});
   });
+//
