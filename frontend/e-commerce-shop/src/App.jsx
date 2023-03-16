@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 //Hooks
 import { useAuth } from './hooks/useAuth';
+import Cart from './pages/Cart/Cart';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={auth ? <Home /> : <Navigate to='/login'/>} />
           {/* <Route path="/profile" element={auth ? <EditProfile /> : <Navigate to='/login' />} /> */}
           <Route path="/products/:productId" element={<ProductDetails/>} ></Route>
+          <Route path='/cart' element={<Cart/>} />
           <Route path="/login" element={!auth ? <Login /> : <Navigate to='/' />} />
           <Route path="/register" element={!auth ? <Register /> : <Navigate to='/' />} />
         </Routes>

@@ -45,9 +45,10 @@ exports.postCart = asyncHandler(async (req, res, next) => {
         productId: product._id,
         quantity: 1
       });
+      return user
     }
-    //console.log(user)
-    //const updatedUser = await User.findByIdAndUpdate(user.id)
+    
+    console.log(user.cart.items)
 
     res.status(200).json({ success: true, data: user.cart.items});
   });
