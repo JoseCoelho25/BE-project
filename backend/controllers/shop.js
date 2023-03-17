@@ -19,7 +19,9 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
 
 exports.postCart = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.body._id);
-  
+    const title = product.title
+    const image = product.imageUrl
+    const price = product.price
     // Extract user ID from JWT token
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -42,7 +44,8 @@ exports.postCart = asyncHandler(async (req, res, next) => {
       // If the product is not in the cart, add it to the cart
       user.cart.items.push({
         productId: product._id,
-        quantity: 1
+        quantity: 1,
+        product: product
       });
     }
 
