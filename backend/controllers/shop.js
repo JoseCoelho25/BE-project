@@ -53,11 +53,16 @@ exports.postCart = asyncHandler(async (req, res, next) => {
 //
 
 exports.getCart = asyncHandler(async(req,res,next) => {
+  //console.log(req.body)
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
   
     const user = await User.findById(userId);
+    if(!user){
+      res.status(400).json({success: false, message:'No user found'})
+    }
 
-    res.status(200).json({success: true, data:user})
+    res.status(200).json({success: true, data:user.cart.items})
 })
+

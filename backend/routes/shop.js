@@ -6,11 +6,11 @@ const { protect } = require('../middleware/auth');
 const router = express.Router();
 
 router
-.route('/')
+.route('/', protect)
 .get(getProducts)
 
 router
-.route('/products/:productId')
+.route('/products/:productId', protect)
 .get(getProduct)
 
 router

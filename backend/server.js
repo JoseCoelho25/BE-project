@@ -6,6 +6,7 @@ const errorHandler = require('./middleware/error');
 const fileupload = require('express-fileupload');
 const connectDB = require('./config/db');
 const colors = require('colors');
+const cookieParser = require('cookie-parser');
 const cors = require('cors')
 
 
@@ -23,6 +24,9 @@ const app = express();
 
 // Body parser
 app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
 
 //Solve CORS
 app.use(cors({ credentials: true, origin: "http://localhost:5173"}))

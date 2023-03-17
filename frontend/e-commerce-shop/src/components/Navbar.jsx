@@ -40,7 +40,7 @@ const Navbar = () => {
                         <BsHouseDoorFill className="h-8 w-8"/>
                     </NavLink>
                     {user && (
-                        <NavLink to={`/users/${user._id}`}>
+                        <NavLink to={'/cart'}>
                             <BsFillCameraFill className="h-8 w-8"/>
                         </NavLink>
                     )}
