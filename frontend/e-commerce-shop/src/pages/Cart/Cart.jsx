@@ -25,14 +25,15 @@ const Cart = () => {
     fetchCart();
   },[]);
 
-  console.log(cart)
+
   return (
-    <div>
-      <div>Cart Products</div>
+    <div className='w-1/2 mx-auto'>
+      <div className='text-3xl text-center mb-6'>Cart Products</div>
       {cart.data && cart.data.map((product) => (
-        <div key={product.productId}>
-          <p>{product.productId}</p>
-          <p>{product.quantity}</p>
+        <div key={product.productId} className='flex'>
+          <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
+          <p className='mx-2 text-xl font-bold mt-4'>{product.quantity}</p>
+          <p className='text-xl mt-4'>{product.product.title}</p>
         </div>
       ))}
     </div>
