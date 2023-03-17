@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from "../../utils/config";
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
+  const userToken = useSelector((state) => state.auth.user);
 
   const handleAddToCart = async () => {
     try {
-      const response = await fetch(api + `/cart`, {
+      const response = await fetch(api + '/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${userToken.token}`,
         },
         body: JSON.stringify({
           _id: productId,
@@ -47,7 +49,7 @@ const ProductDetails = () => {
         <h1>{product?.data?.title}</h1>
         <p className='mb-10'>{product?.data?.price} EUR</p>
         <p className='text-sm tracking-wide leading-loose'>{product?.data?.description}</p>
-        <Link to='/cart' className='mt-20 border w-full border-black p-2 bg' onClick={handleAddToCart}>Adicionar ao carrinho</Link>
+        <button className='mt-20 border w-full border-black p-2 bg' onClick={handleAddToCart}>Adicionar ao carrinho</button>
       </div>
       
     </div>

@@ -19,9 +19,7 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
 
 exports.postCart = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.body._id);
-    const title = product.title
-    const image = product.imageUrl
-    const price = product.price
+
     // Extract user ID from JWT token
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -69,3 +67,33 @@ exports.getCart = asyncHandler(async(req,res,next) => {
     res.status(200).json({success: true, data:user.cart.items})
 })
 
+exports.deleteItemFromCart = asyncHandler(async(req,res,next) => {
+  const product = await Product.findById(req.body._id);
+    
+    // Extract user ID from JWT token
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+  
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    
+    if (cartItemIndex >= 0) {
+      // If the product is already in the cart, update the quantity
+      user.cart.items[cartItemIndex].quantity++ ;
+    } else {
+      // If the product is not in the cart, add it to the cart
+      user.cart.items.push({
+        productId: product._id,
+        quantity: 1,
+        product: product
+      });
+    }
+
+    await User.updateOne({ _id: userId }, { cart: user.cart });
+
+    res.status(200).json({ success: true, data: user.cart.items});
+})
