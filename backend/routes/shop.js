@@ -17,7 +17,7 @@ router
 .route('/cart', protect)
 .get(getCart)
 .post(postCart)
-.post(deleteItemFromCart)
+.delete(deleteItemFromCart)
 
 // router
 // .route('/checkout')
