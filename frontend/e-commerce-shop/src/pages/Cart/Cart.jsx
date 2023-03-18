@@ -52,7 +52,7 @@ const Cart = () => {
           <div className='w-1/3'>
             <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
             <p className='text-xl mt-4'>{product.product.title}</p>
-            <p className='text-xl mt-4'>{product.product.price}€</p>
+            <p className='text-xl mt-4'>{product.product.price*product.quantity}€</p>
             <div className='flex text-xl mx-2 gap-x-6 mt-4'>
               <AiOutlineMinus className='mt-1'/>
               <p className=' font-bold '>{product.quantity}</p>

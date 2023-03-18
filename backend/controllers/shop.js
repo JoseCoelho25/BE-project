@@ -72,8 +72,8 @@ exports.getCart = asyncHandler(async(req,res,next) => {
 
 exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
   const productId = req.body.productId;
-  console.log(productId)
-  console.log(req.user)
+  // console.log(productId)
+  // console.log(req.user)
   const userId = req.user._id
 
   const user = await User.findById(userId);
@@ -98,4 +98,32 @@ exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
     data:user.cart.items
   });
 });
+
+exports.increaseCartQuantity = asyncHandler(async(req,res,next) => {
+  const productId = req.body.productId;
+  
+
+  const userId = req.user._id
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+
+  // Find the item to remove from the user's cart
+  const cartItemIndex = user.cart.items.findIndex(item => item.productId.toString() === productId);
+
+  if (cartItemIndex >= 0) {
+    user.cart.items[cartItemIndex].quantity++;
+  }
+
+  await User.updateOne({ _id: userId }, { cart: user.cart });
+
+  res.status(200).json({
+    success: true,
+    data:user.cart.items
+  });
+  
+})
 

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getProducts, getProduct, postCart, getCart, deleteItemFromCart } = require('../controllers/shop');
+const { getProducts, getProduct, postCart, getCart, deleteItemFromCart, increaseCartQuantity } = require('../controllers/shop');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
@@ -18,6 +18,7 @@ router
 .get(protect, getCart)
 .post(protect, postCart)
 .delete(protect, deleteItemFromCart)
+.put(protect, increaseCartQuantity)
 
 // router
 // .route('/checkout')
