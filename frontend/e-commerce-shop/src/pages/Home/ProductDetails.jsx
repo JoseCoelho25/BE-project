@@ -15,11 +15,10 @@ const ProductDetails = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken.token}`,
+          'Authorization': 'Bearer ' + userToken.token
         },
-        body: JSON.stringify({
-          _id: productId,
-        }),
+        credentials: 'include',
+        body: JSON.stringify({ _id: productId })
       });
       const data = await response.json();
       console.log(data);

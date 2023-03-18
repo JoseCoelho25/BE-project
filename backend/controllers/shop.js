@@ -28,10 +28,7 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
 exports.postCart = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.body._id);
 
-    // Extract user ID from JWT token
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.user._id
   
     const user = await User.findById(userId);
 
@@ -62,10 +59,8 @@ exports.postCart = asyncHandler(async (req, res, next) => {
 //
 
 exports.getCart = asyncHandler(async(req,res,next) => {
-  //console.log(req.body)
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+
+    userId = req.user._id
   
     const user = await User.findById(userId);
     if(!user){
@@ -77,11 +72,9 @@ exports.getCart = asyncHandler(async(req,res,next) => {
 
 exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
   const productId = req.body.productId;
-
-  // Extract user ID from JWT token
-  const token = req.headers.authorization.split(' ')[1];
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const userId = decoded.id;
+  console.log(productId)
+  console.log(req.user)
+  const userId = req.user._id
 
   const user = await User.findById(userId);
 

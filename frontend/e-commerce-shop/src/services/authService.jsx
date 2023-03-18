@@ -1,4 +1,6 @@
 import { api, requestConfig } from "../utils/config";
+import Cookies from "js-cookie";
+
 
 // Register a user
 const register = async (data) => {
@@ -7,11 +9,10 @@ const config = requestConfig("POST", data);
 try {
     const res = await fetch(api + "/auth/register", config)
     .then((res) => res.json())
+    .then((res) => Cookies.set("token", res.token))
     .catch((err) => err);
 
-    if (res._id) {
-    localStorage.setItem("user", JSON.stringify(res));
-    }
+    
 
     return res;
 } catch (error) {
@@ -21,8 +22,9 @@ try {
 
 //Logout an user
 const logout = () => {
-    localStorage.removeItem('user')
-}
+    Cookies.remove("token");
+};
+
 
 //Sign in a user
 const login = async(data) => {
@@ -31,11 +33,10 @@ const login = async(data) => {
     try {
         const res = await fetch(api + '/auth/login', config)
                     .then((res) => res.json())
+                    .then((res) => Cookies.set("token", res.token))
                     .catch((err) => err)
 
-        if(res._id) {
-            localStorage.setItem('user', JSON.stringify(res))
-        }
+       
 
         return res
     } catch (error) {

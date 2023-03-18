@@ -14,10 +14,10 @@ router
 .get(getProduct)
 
 router
-.route('/cart', protect)
-.get(getCart)
-.post(postCart)
-.delete(deleteItemFromCart)
+.route('/cart' )
+.get(protect, getCart)
+.post(protect, postCart)
+.delete(protect, deleteItemFromCart)
 
 // router
 // .route('/checkout')

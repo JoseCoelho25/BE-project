@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
+import Cookies from 'js-cookie';
 
-const user = localStorage.getItem('user')
-  ? JSON.parse(localStorage.getItem('user'))
-  : null; //user data saved in our authService in localstorage
+
+const user = Cookies.get('token') || null;
+console.log(user)
+
 
 
 const initialState = {

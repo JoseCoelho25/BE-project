@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react'
 import { api } from "../../utils/config";
 import { useSelector } from 'react-redux'
 
+
 const Cart = () => {
   const [cart, setCart] = useState({});
   const userToken = useSelector((state) => state.auth.user);
-  //console.log(userToken.token)
 
   const handleRemoveItem = async (productId) => {
     try {
@@ -13,8 +13,8 @@ const Cart = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken.token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           productId: productId,
         }),
@@ -32,9 +32,7 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         const response = await fetch(api + '/cart',{
-          headers: {
-            Authorization: `Bearer ${userToken.token}`
-          }
+          credentials: 'include'
         });
         const data = await response.json();
         setCart(data);

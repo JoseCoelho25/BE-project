@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 import { NavLink, Link } from 'react-router-dom'
-import {BsSearch, BsHouseDoorFill, BsFillPersonFill, BsFillCameraFill} from 'react-icons/bs'
+import {BsSearch, BsHouseDoorFill,BsFillCartDashFill, BsFillPersonFill, BsFillCameraFill} from 'react-icons/bs'
 
 //Hooks
 import { useAuth } from '../hooks/useAuth'
@@ -41,7 +41,7 @@ const Navbar = () => {
                     </NavLink>
                     {user && (
                         <NavLink to={'/cart'}>
-                            <BsFillCameraFill className="h-8 w-8"/>
+                            <BsFillCartDashFill className="h-8 w-8"/>
                         </NavLink>
                     )}
                     <span className="text-2xl" onClick={handleLogout}>Exit</span>
