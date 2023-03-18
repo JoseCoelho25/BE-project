@@ -27,6 +27,48 @@ const Cart = () => {
     }
   };
 
+  const handleDecreaseItem = async (productId) => {
+    try {
+      const response = await fetch(api + '/cart/descreaseItemToCart', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          productId: productId,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+      // update the cart state after removing the item
+      setCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleIncreaseItem = async (productId) => {
+    try {
+      const response = await fetch(api + '/cart/addItemToCart', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          productId: productId,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+      // update the cart state after removing the item
+      setCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -54,9 +96,9 @@ const Cart = () => {
             <p className='text-xl mt-4'>{product.product.title}</p>
             <p className='text-xl mt-4'>{product.product.price*product.quantity}€</p>
             <div className='flex text-xl mx-2 gap-x-6 mt-4'>
-              <AiOutlineMinus className='mt-1'/>
+              <button onClick={()=> handleDecreaseItem(product.productId)}><AiOutlineMinus className=''/></button>
               <p className=' font-bold '>{product.quantity}</p>
-              <AiOutlinePlus className='mt-1'/>  
+              <button onClick={()=> handleIncreaseItem(product.productId)}><AiOutlinePlus className=''/> </button>
             </div>
           </div>
           <div className='grid grid-cols-1 content-end'>
