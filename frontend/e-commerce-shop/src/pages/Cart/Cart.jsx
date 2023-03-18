@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { api } from "../../utils/config";
-import { useSelector } from 'react-redux'
+import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai'
 
 
 const Cart = () => {
   const [cart, setCart] = useState({});
-  const userToken = useSelector((state) => state.auth.user);
 
   const handleRemoveItem = async (productId) => {
     try {
@@ -46,14 +45,24 @@ const Cart = () => {
 
 
   return (
-    <div className='w-1/2 mx-auto'>
+    <div className='w-1/2 mx-auto pb-20'>
       <div className='text-3xl text-center mb-6'>Cart Products</div>
       {cart.data && cart.data.map((product) => (
         <div key={product.productId} className='flex'>
-          <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
-          <p className='mx-2 text-xl font-bold mt-4'>{product.quantity}</p>
-          <p className='text-xl mt-4'>{product.product.title}</p>
-          <button className='mt-20 border w-full border-black p-2 bg' onClick={()=> handleRemoveItem(product.productId)}>Remove item from cart</button>
+          <div className='w-1/3'>
+            <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
+            <p className='text-xl mt-4'>{product.product.title}</p>
+            <p className='text-xl mt-4'>{product.product.price}€</p>
+            <div className='flex text-xl mx-2 gap-x-6 mt-4'>
+              <AiOutlineMinus className='mt-1'/>
+              <p className=' font-bold '>{product.quantity}</p>
+              <AiOutlinePlus className='mt-1'/>  
+            </div>
+          </div>
+          <div className='grid grid-cols-1 content-end'>
+            <button className='align-bottom border p-2 border-black' onClick={()=> handleRemoveItem(product.productId)}>Remove item from cart</button>
+          </div>
+          
         </div>
       ))}
     </div>

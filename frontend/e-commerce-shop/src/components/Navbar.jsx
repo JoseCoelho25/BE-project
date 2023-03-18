@@ -26,7 +26,7 @@ const Navbar = () => {
         navigate('/login')
     }
 
-  return (
+return (
     <nav className="flex justify-between align-middle border-t-2 border-[#363636] p-4 mx-8 mb-20">
         <Link to="/" className="py-2 text-4xl">Shop Easy</Link>
         <form className="flex relative w-1/4 rounded-lg ml-20 border-2 border-black">

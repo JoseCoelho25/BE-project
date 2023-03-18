@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from "../../utils/config";
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
-  const userToken = useSelector((state) => state.auth.user);
 
   const handleAddToCart = async () => {
     try {
@@ -15,7 +13,6 @@ const ProductDetails = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + userToken.token
         },
         credentials: 'include',
         body: JSON.stringify({ _id: productId })
