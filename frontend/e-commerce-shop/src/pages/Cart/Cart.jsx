@@ -5,6 +5,7 @@ import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai'
 
 const Cart = () => {
   const [cart, setCart] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const handleRemoveItem = async (productId) => {
     try {
@@ -19,7 +20,7 @@ const Cart = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+
       // update the cart state after removing the item
       setCart(data);
     } catch (err) {
@@ -40,7 +41,7 @@ const Cart = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+
       // update the cart state after removing the item
       setCart(data);
     } catch (err) {
@@ -61,7 +62,7 @@ const Cart = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+
       // update the cart state after removing the item
       setCart(data);
     } catch (err) {
@@ -85,20 +86,31 @@ const Cart = () => {
     fetchCart();
   },[]);
 
+  useEffect(() => {
+    // calculate the total price of all products in the cart
+    let total = 0;
+    if (cart.data) {
+      for (const product of cart.data) {
+        total += product.product.price * product.quantity;
+      }
+    }
+    setTotalPrice(total);
+  }, [cart]);
 
+console.log((totalPrice).toFixed(2))
   return (
     <div className='w-1/2 mx-auto pb-20'>
-      <div className='text-3xl text-center mb-6'>Cart Products</div>
+      <h1 className='text-3xl text-center mb-6'>Cart Products</h1>
       {cart.data && cart.data.map((product) => (
         <div key={product.productId} className='flex'>
           <div className='w-1/3'>
             <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
             <p className='text-xl mt-4'>{product.product.title}</p>
-            <p className='text-xl mt-4'>{product.product.price*product.quantity}€</p>
+            <p className='text-xl mt-4'>{(product.product.price*product.quantity).toFixed(2)}€</p>
             <div className='flex text-xl mx-2 gap-x-6 mt-4'>
-              <button onClick={()=> handleDecreaseItem(product.productId)}><AiOutlineMinus className=''/></button>
+              <button onClick={()=> handleDecreaseItem(product.productId)}><AiOutlineMinus /></button>
               <p className=' font-bold '>{product.quantity}</p>
-              <button onClick={()=> handleIncreaseItem(product.productId)}><AiOutlinePlus className=''/> </button>
+              <button onClick={()=> handleIncreaseItem(product.productId)}><AiOutlinePlus /> </button>
             </div>
           </div>
           <div className='grid grid-cols-1 content-end'>
@@ -107,6 +119,12 @@ const Cart = () => {
           
         </div>
       ))}
+      <div className='fixed top-1/3 right-1/3 border border-black p-4 rounded-lg h-1/3 shadow-2xl'>
+        <h2 className='text-xl mt-4 text-center'>Amount to pay:</h2>
+        <p className='text-xl mt-6 text-center'>{(totalPrice).toFixed(2)}€</p>
+        <button className='border border-black mt-8 px-2 py-4' >Proceed to Payment</button>
+      </div>
+      
     </div>
   );
   
