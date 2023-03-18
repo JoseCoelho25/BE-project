@@ -154,3 +154,23 @@ exports.decreaseCartQuantity = asyncHandler(async(req,res,next) => {
   });
   
 })
+
+exports.getCheckout = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+  
+  let totalTrimmed = 0;
+  // Find all the items in cart
+  for (let i = 0; i < user.cart.items.length; i++) {
+    const item = user.cart.items[i];
+    totalPrice= item.product.price * item.quantity;
+    totalTrimmed = (totalPrice).toFixed(2)
+  }
+
+  res.status(200).json({ totalTrimmed });
+});
