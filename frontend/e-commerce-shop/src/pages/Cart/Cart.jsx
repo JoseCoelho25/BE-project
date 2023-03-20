@@ -9,6 +9,7 @@ import { loadStripe } from '@stripe/stripe-js';
 const Cart = () => {
   const [cart, setCart] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
+  
 
   const handleRemoveItem = async (productId) => {
     try {
@@ -72,42 +73,37 @@ const Cart = () => {
       console.log(err);
     }
   };
+
+  
+
   const makePayment = async () => { 
     const stripe = await loadStripe("pk_test_51Mf9OdDdApvbMXPjhYh5n96iBLygysfIwidxLU4nhJGoUcuwYvEOMxzv4moKORVplSdhwqQQZnDCNyyx6UWKCy2F008b22HaRX"); 
     const body = { cart }; 
     const headers = { 
       "Content-Type": "application/json", 
+      
     }; 
-    // console.log(cart)
-    // const lineItems = cart.data.map(item => {
-    //   console.log(item.product.title)
-    //   return {
-    //     price: item.product.price.toString(),
-    //     quantity: item.quantity,
-    //     name: item.product.title
-    //   }
-    // });
+  
     
- 
     const response = await fetch( 
       "http://localhost:5000/api/checkout", 
       { 
         method: "POST", 
         headers: headers, 
+        credentials: 'include',
         body: JSON.stringify({
-          //lineItems: lineItems,
           body:body,
         }), 
       } 
     ); 
-    const session = await response.json(); 
-    console.log(session.id)
+
+    const sessionData = await response.json(); 
+    const sessionId = sessionData.id;
+
  
     const result = stripe.redirectToCheckout({ 
-      sessionId: session.id, 
-      //lineItems: lineItems,
-      successUrl: 'http://localhost:5731/success',
-      mode:'payment'
+      sessionId: sessionId, 
+      
     }); 
  
     if (result.error) { 
@@ -170,11 +166,7 @@ console.log((totalPrice).toFixed(2))
         
           <button className='border border-black mt-8 px-2 py-4' onClick={makePayment}>Proceed to Payment</button>
         
-        {/* <form onSubmit={handleSubmit}>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Loading...' : 'Pay'}
-        </button>
-      </form> */}
+ 
       </div>
       
     </div>

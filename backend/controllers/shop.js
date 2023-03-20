@@ -203,7 +203,7 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
       cancel_url: "http://localhost:5731/cancel", 
       line_items: cartItems.map((item) => ({ 
         price_data: { 
-          currency: "inr", 
+          currency: "eur", 
           product_data: { 
             name: item.product.title, 
           }, 
