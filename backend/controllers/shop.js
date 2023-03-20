@@ -4,6 +4,10 @@ const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config({ path: './config/config.env' });
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 
 exports.getProducts = asyncHandler(async(req,res,next) => {
     const products = await Product.find();
@@ -163,7 +167,10 @@ exports.getCheckout = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new ErrorResponse('User not found', 404));
   }
-  
+
+  // Get all products in the user's cart
+  const cartItems = user.cart.items;
+
   let totalTrimmed = 0;
   // Find all the items in cart
   for (let i = 0; i < user.cart.items.length; i++) {
@@ -172,5 +179,39 @@ exports.getCheckout = asyncHandler(async (req, res, next) => {
     totalTrimmed = (totalPrice).toFixed(2)
   }
 
+
   res.status(200).json({ totalTrimmed });
 });
+
+exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+
+  // Get all products in the user's cart
+  const cartItems = user.cart.items;
+  
+
+    const session = await stripe.checkout.sessions.create({ 
+      payment_method_types: ["card"], 
+      mode: "payment", 
+      success_url: "http://localhost:5731/success", 
+      cancel_url: "http://localhost:5731/cancel", 
+      line_items: cartItems.map((item) => ({ 
+        price_data: { 
+          currency: "inr", 
+          product_data: { 
+            name: item.product.title, 
+          }, 
+          unit_amount: Math.round(item.product.price * 100), // fixed cartItems.product.price to item.price
+        }, 
+        quantity: item.quantity, // fixed cartItems.quantity to item.quantity
+      })),
+    });
+    
+    res.json({ id: session.id });   
+  }) 

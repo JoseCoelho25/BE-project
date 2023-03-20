@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { api } from "../../utils/config";
 import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai'
+import { Link } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+
 
 
 const Cart = () => {
@@ -69,6 +72,48 @@ const Cart = () => {
       console.log(err);
     }
   };
+  const makePayment = async () => { 
+    const stripe = await loadStripe("pk_test_51Mf9OdDdApvbMXPjhYh5n96iBLygysfIwidxLU4nhJGoUcuwYvEOMxzv4moKORVplSdhwqQQZnDCNyyx6UWKCy2F008b22HaRX"); 
+    const body = { cart }; 
+    const headers = { 
+      "Content-Type": "application/json", 
+    }; 
+    // console.log(cart)
+    // const lineItems = cart.data.map(item => {
+    //   console.log(item.product.title)
+    //   return {
+    //     price: item.product.price.toString(),
+    //     quantity: item.quantity,
+    //     name: item.product.title
+    //   }
+    // });
+    
+ 
+    const response = await fetch( 
+      "http://localhost:5000/api/checkout", 
+      { 
+        method: "POST", 
+        headers: headers, 
+        body: JSON.stringify({
+          //lineItems: lineItems,
+          body:body,
+        }), 
+      } 
+    ); 
+    const session = await response.json(); 
+    console.log(session.id)
+ 
+    const result = stripe.redirectToCheckout({ 
+      sessionId: session.id, 
+      //lineItems: lineItems,
+      successUrl: 'http://localhost:5731/success',
+      mode:'payment'
+    }); 
+ 
+    if (result.error) { 
+      console.log(result.error); 
+    } 
+  }; 
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -122,7 +167,14 @@ console.log((totalPrice).toFixed(2))
       <div className='fixed top-1/3 right-1/3 border border-black p-4 rounded-lg h-1/3 shadow-2xl'>
         <h2 className='text-xl mt-4 text-center'>Amount to pay:</h2>
         <p className='text-xl mt-6 text-center'>{(totalPrice).toFixed(2)}€</p>
-        <button className='border border-black mt-8 px-2 py-4' >Proceed to Payment</button>
+        
+          <button className='border border-black mt-8 px-2 py-4' onClick={makePayment}>Proceed to Payment</button>
+        
+        {/* <form onSubmit={handleSubmit}>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Loading...' : 'Pay'}
+        </button>
+      </form> */}
       </div>
       
     </div>
