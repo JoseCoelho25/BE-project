@@ -8,6 +8,8 @@ import Layout from './components/Mainlayout/Layout';
 import ProductDetails from './pages/Home/ProductDetails'
 import Success from './pages/Checkout/Success'
 import Cancel from './pages/Checkout/Cancel'
+import EditProduct from './pages/Admin/Editproduct';
+import Products from './pages/Admin/Products';
 
 //import EditProfile from './pages/EditProfile/EditProfile'
 
@@ -17,6 +19,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //Hooks
 import { useAuth } from './hooks/useAuth';
 import Cart from './pages/Cart/Cart';
+
+
 
 
 function App() {
@@ -32,8 +36,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={auth ? <Home /> : <Navigate to='/login'/>} />
-          {/* <Route path="/profile" element={auth ? <EditProfile /> : <Navigate to='/login' />} /> */}
-          <Route path="/products/:productId" element={<ProductDetails/>} ></Route>
+          <Route path="/products" element={auth ? <Products /> : <Navigate to='/login'/>} />
+          <Route path="/edit-product" element={auth ? <EditProduct /> : <Navigate to='/login'/>} />
+          <Route path="/products/:productId" element={auth ? <ProductDetails/> : <Navigate to='/login'/>} ></Route>
           <Route path='/cart' element={<Cart/>} />
           <Route path="/success" element={<Success />} /> 
           <Route path="/cancel" element={<Cancel />} /> 

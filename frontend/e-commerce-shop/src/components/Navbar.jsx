@@ -36,11 +36,8 @@ return (
         <Link to="/" className="py-2 text-4xl">Shop Easy</Link>
         {userData?.role === 'publisher' ? (
             <>
-            <NavLink>
-                <p>Admin Edit Product</p>
-            </NavLink>
-            <NavLink>
-                <p>Admin Products</p>
+            <NavLink to='/products'className='grid content-center'>
+                <div className='text-xl border border-black p-1'>Admin Products</div>
             </NavLink>
             </>
         ): (
@@ -51,7 +48,7 @@ return (
             <BsSearch className="absolute  top-2 h-6 w-6 left-1"/>
             <input type="text" placeholder='Search' className="pl-8 py-2 w-full rounded-lg"/>
         </form>
-        <ul className="flex align-middle gap-x-6 cursor-pointer">
+        <ul className="grid grid-cols-3 align-middle gap-x-6 cursor-pointer content-center">
             {auth ? (
                 <>
                     <NavLink to="/" >

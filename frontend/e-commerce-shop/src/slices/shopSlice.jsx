@@ -9,6 +9,14 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
+export const fetchAllAdminProducts = createAsyncThunk(
+  'shop/fetchAllAdminProducts',
+  async () => {
+    const response = await shopService.getAllAdminProducts();
+    return response.data;
+  }
+);
+
 
 
 const shopSlice = createSlice({
@@ -38,6 +46,19 @@ const shopSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchAllAdminProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllAdminProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchAllAdminProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
