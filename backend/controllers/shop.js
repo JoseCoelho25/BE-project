@@ -199,8 +199,8 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     const session = await stripe.checkout.sessions.create({ 
       payment_method_types: ["card"], 
       mode: "payment", 
-      success_url: "http://localhost:5731/success", 
-      cancel_url: "http://localhost:5731/cancel", 
+      success_url: "http://localhost:5173/success", 
+      cancel_url: "http://localhost:5173/cancel", 
       line_items: cartItems.map((item) => ({ 
         price_data: { 
           currency: "eur", 
