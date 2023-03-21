@@ -9,14 +9,11 @@ const router = express.Router();
 router
 .route('/add-product')
 .post(protect, authorize('publisher'),postAddProduct)
-.get(getAddProduct)
+.get(protect, authorize('publisher'),getAddProduct)
 
 router
 .route('/products')
-.get(getProducts)
+.get(protect, authorize('publisher'),getProducts)
 
-router.get('/publishers-only', protect, authorize('publisher'), (req, res) => {
-    res.send('This route is only accessible to publishers.');
-});
 
 module.exports = router;
