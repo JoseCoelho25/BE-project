@@ -70,7 +70,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token
     const token = user.getSignedJwtToken();
-    
+    const userData = user
+
     //res.status(200).json({ success: true, token });
     const options = {
         expires: new Date(
@@ -88,7 +89,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     .cookie('token', token, options)
     .json({
         success: true,
-        token
+        token,
+        userData:user
     });
     
     }

@@ -10,10 +10,15 @@ import { useNavigate } from 'react-router-dom'
 
 //Redux
 import { logout,reset } from '../slices/authSlice'
+import Cookies from 'js-cookie'; // import Cookies
 
 const Navbar = () => {
     const {auth} = useAuth();
     const {user} = useSelector((state) => state.auth)
+
+    const userCookie = Cookies.get('user');
+    const userData = userCookie ? JSON.parse(userCookie) : null;
+    console.log(userData)
 
     const navigate = useNavigate()
 
@@ -29,6 +34,19 @@ const Navbar = () => {
 return (
     <nav className="flex justify-between align-middle border-t-2 border-[#363636] p-4 mx-8 mb-20">
         <Link to="/" className="py-2 text-4xl">Shop Easy</Link>
+        {userData?.role === 'publisher' ? (
+            <>
+            <NavLink>
+                <p>Admin Edit Product</p>
+            </NavLink>
+            <NavLink>
+                <p>Admin Products</p>
+            </NavLink>
+            </>
+        ): (
+            ''
+        )}
+        
         <form className="flex relative w-1/4 rounded-lg ml-20 border-2 border-black">
             <BsSearch className="absolute  top-2 h-6 w-6 left-1"/>
             <input type="text" placeholder='Search' className="pl-8 py-2 w-full rounded-lg"/>

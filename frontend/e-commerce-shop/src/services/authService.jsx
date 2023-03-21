@@ -7,22 +7,21 @@ const register = async (data) => {
 const config = requestConfig("POST", data);
 
 try {
-    const res = await fetch(api + "/auth/register", config)
-    .then((res) => res.json())
-    .then((res) => Cookies.set("token", res.token))
-    .catch((err) => err);
+    const res = await fetch(api + '/auth/register', config);
+    const json = await res.json(); // parse JSON response
+        Cookies.set('token', json.token);
+        Cookies.set('user', JSON.stringify(json.userData)); // set user data in cookie
 
-    
-
-    return res;
-} catch (error) {
+        return json;
+    } catch (error) {
     console.log(error);
-}
+    }
 };
 
 //Logout an user
 const logout = () => {
     Cookies.remove("token");
+    Cookies.remove('user');
 };
 
 
@@ -31,17 +30,15 @@ const login = async(data) => {
     const config = requestConfig('POST', data)
 
     try {
-        const res = await fetch(api + '/auth/login', config)
-                    .then((res) => res.json())
-                    .then((res) => Cookies.set("token", res.token))
-                    .catch((err) => err)
+        const res = await fetch(api + '/auth/login', config);
+        const json = await res.json(); // parse JSON response
+            Cookies.set('token', json.token);
+            Cookies.set('user', JSON.stringify(json.userData)); // set user data in cookie
 
-       
-
-        return res
-    } catch (error) {
-        console.log(error)
-    }
+            return json;
+        } catch (error) {
+        console.log(error);
+        }
 
 }
 

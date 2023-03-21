@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 
 
 const user = Cookies.get('token') || null;
-console.log(user)
+const data = Cookies.get('user') || null
+console.log(data)
 
 
 
@@ -39,6 +40,7 @@ export const logout = createAsyncThunk('auth/logout', async() => {
 export const login = createAsyncThunk(
     'auth/login',
     async (user, thunkAPI) => {
+        console.log(user)
         const data = await authService.login(user)
 
         //check for errors
