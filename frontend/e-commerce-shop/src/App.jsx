@@ -37,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={auth ? <Home /> : <Navigate to='/login'/>} />
           <Route path="/products" element={auth ? <Products /> : <Navigate to='/login'/>} />
-          <Route path="/edit-product" element={auth ? <EditProduct /> : <Navigate to='/login'/>} />
+          <Route path="/edit-product/:productId" element={auth ? <EditProduct /> : <Navigate to='/login'/>} />
           <Route path="/products/:productId" element={auth ? <ProductDetails/> : <Navigate to='/login'/>} ></Route>
           <Route path='/cart' element={<Cart/>} />
           <Route path="/success" element={<Success />} /> 

@@ -18,7 +18,6 @@ const Navbar = () => {
 
     const userCookie = Cookies.get('user');
     const userData = userCookie ? JSON.parse(userCookie) : null;
-    console.log(userData)
 
     const navigate = useNavigate()
 
