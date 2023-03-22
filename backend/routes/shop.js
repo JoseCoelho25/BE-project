@@ -7,7 +7,7 @@ const router = express.Router();
 
 router
 .route('/', protect)
-.get(getProducts)
+.get( getProducts)
 
 router
 .route('/products/:productId', protect)

@@ -23,7 +23,7 @@ const Home = ({product}) => {
 
   return (
     <div className='grid grid-cols-2 mx-8 gap-y-10 mb-20'>
-      {products.map((product) => (
+      {products?.map((product) => (
         <div key={product._id} >
           <Link to={`/products/${product._id}`}>
             <img src={product.imageUrl} alt="clothes imgs" />

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {postAddProduct, getAddProduct, getProducts} = require('../controllers/admin');
+const {postAddProduct, getAddProduct, getProducts, getAdminProduct} = require('../controllers/admin');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -15,5 +15,8 @@ router
 .route('/products')
 .get(protect, authorize('publisher'),getProducts)
 
+router
+.route('/edit-products/:productId')
+.get(protect,getAdminProduct)
 
 module.exports = router;

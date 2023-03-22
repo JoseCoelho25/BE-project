@@ -9,12 +9,7 @@ const getAllProducts = async () => {
     return response;
 };
 
-const getAllAdminProducts = async () => {
-    const response = await fetch(api + '/products')
-    .then((res) => res.json())
-    .catch((err) => err);
-    return response;
-}
+
 
 
 export default {

@@ -12,5 +12,14 @@ exports.getAddProduct = asyncHandler(async(req,res,next) => {
 })
 
 exports.getProducts = asyncHandler(async(req,res,next) => {
-    res.send('Got all added products by this user!')
+    const products = await Product.find();
+
+    if (!products) {
+      return next(new ErrorResponse('Products not found!', 404));
+    }
+    res.status(200).json({success:true, count:products.length, data:products})
+})
+
+exports.getAdminProduct = asyncHandler(async(req,res,next) => {
+    res.send('Gottem')
 })
