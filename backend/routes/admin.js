@@ -17,6 +17,6 @@ router
 
 router
 .route('/edit-products/:productId')
-.get(protect,getAdminProduct)
+.get(protect,authorize('publisher'),getAdminProduct)
 
 module.exports = router;

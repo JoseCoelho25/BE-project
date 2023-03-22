@@ -21,5 +21,11 @@ exports.getProducts = asyncHandler(async(req,res,next) => {
 })
 
 exports.getAdminProduct = asyncHandler(async(req,res,next) => {
-    res.send('Gottem')
+    const product = await Product.findById(req.params.productId)
+
+    if (!product) {
+        return next(new ErrorResponse(`Product not found with id of ${req.params.productId}`, 404));
+    }
+
+    res.status(201).json({success:true, data:product})
 })
