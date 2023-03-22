@@ -30,20 +30,18 @@ const Products = () => {
 
 return (
     <div className='mx-auto w-2/3'>
+      <div className='grid grid-cols-5 mb-2 text-xl'>
+          <p>Product Name</p>
+          <p>Product Price</p>
+          <p>Product Category</p>
+      </div>
       {products.data.map((product) => (
-        <div key={product._id} className='grid grid-cols-3'>
-          <div>
-            <p>Product Name</p>
-            <p>{product.title}</p>
-          </div>
-          <div>
-            <p>Product Price</p>
-            <p>{product.price}</p>
-          </div>
-          <div>
-            <p>Product Category</p>
-            <p>{product.category}</p>
-          </div>
+        <div key={product._id} className='grid grid-cols-5 mb-2'>
+            <p className='grid content-center'>{product.title}</p>
+            <p className='grid content-center'>{product.price}€</p>
+            <p className='grid content-center'>{product.category}</p>
+            <Link to={`/edit-product/${product._id}`} className='border border-black w-28 h-10 text-center content-center grid'>Edit Product</Link>
+            <button className='border border-black w-32 h-10 text-center content-center grid'>Remove Product</button>
       </div>
       ))}
     </div>
