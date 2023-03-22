@@ -29,3 +29,21 @@ exports.getAdminProduct = asyncHandler(async(req,res,next) => {
 
     res.status(201).json({success:true, data:product})
 })
+
+exports.updateEditProduct = asyncHandler(async(req,res,next) => {
+
+const product = await Product.findByIdAndUpdate(req.params.productId, req.body,{
+    new:true
+});
+
+if (!product) {
+    return next(new ErrorResponse(`Product not found with id of ${req.params.productId}`, 404));
+}
+
+res
+    .status(200)
+    .json({ success: true, data: product })
+    .then(() => {
+        res.redirect("http://localhost:5173/api/admin/products");
+    });
+})
