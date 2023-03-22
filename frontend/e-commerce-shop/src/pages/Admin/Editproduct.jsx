@@ -20,6 +20,8 @@ const Editproduct = () => {
 
     fetchProduct();
   }, [productId]);
+
+  console.log(product)
   return (
     <div>Edit-product</div>
   )

@@ -35,7 +35,7 @@ return (
           <p>Product Price</p>
           <p>Product Category</p>
       </div>
-      {products.data.map((product) => (
+      {products?.data?.map((product) => (
         <div key={product._id} className='grid grid-cols-5 mb-2'>
             <p className='grid content-center'>{product.title}</p>
             <p className='grid content-center'>{product.price}€</p>
