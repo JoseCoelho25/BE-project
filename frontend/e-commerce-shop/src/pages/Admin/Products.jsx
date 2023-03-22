@@ -1,44 +1,51 @@
-import React, { useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllAdminProducts } from '../../slices/shopSlice';
+import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import Cookies from "js-cookie";
+import { api } from "../../utils/config";
+
 
 const Products = () => {
-    const dispatch = useDispatch();
-    const products = useSelector((state) => state.shop.products);
-    const status = useSelector((state) => state.shop.status);
-    const error = useSelector((state) => state.shop.error);
+    const [products, setProducts] = useState({})
 
-useEffect(() => {
-    dispatch(fetchAllAdminProducts());
-}, [dispatch]);
 
-if (status === 'loading') {
-    return <div>Loading...</div>;
-}
+    useEffect(() => {
+        const fetchProduct = async () => {
+          try {
+            const response = await fetch(api + '/admin/products',{
+              method: 'GET',
+              headers: {
+                    'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            });
+            const data = await response.json();
+            setProducts(data);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+    
+        fetchProduct();
+      }, []);
 
-if (status === 'failed') {
-    return <div>{error}</div>;
-}
 return (
-    <div className='grid grid-cols-2 mx-8 gap-y-2'>
-    {products.map((product) => (
-        <div key={product._id} >
-            <div className='grid grid-cols-3 mr-20'>
-                <div>
-                    <h1>Name</h1>
-                    <h2>{product.title}</h2>
-                </div>
-                <div>
-                    <h1>Price</h1>
-                    <p className=''>{product.price}€</p>
-                </div>
-                <div>
-                    <h1>Category</h1>
-                    <p>{product.category}</p>
-                </div>
-            </div>
-          {/* <p>{product.description}</p> */}
-        </div>))}
+    <div className='mx-auto w-2/3'>
+      {products.data.map((product) => (
+        <div key={product._id} className='grid grid-cols-3'>
+          <div>
+            <p>Product Name</p>
+            <p>{product.title}</p>
+          </div>
+          <div>
+            <p>Product Price</p>
+            <p>{product.price}</p>
+          </div>
+          <div>
+            <p>Product Category</p>
+            <p>{product.category}</p>
+          </div>
+      </div>
+      ))}
     </div>
 )
 }
