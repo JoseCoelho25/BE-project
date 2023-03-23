@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {postNewProduct, getAddProduct, getProducts, getAdminProduct, updateEditProduct, adminPhotoUpload} = require('../controllers/admin');
+const {postNewProduct, getProducts, getAdminProduct, updateEditProduct, adminPhotoUpload, deleteAdminProduct} = require('../controllers/admin');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -9,11 +9,11 @@ const router = express.Router();
 router
 .route('/add-product')
 .post(protect, authorize('publisher'),postNewProduct)
-.get(protect, authorize('publisher'),getAddProduct)
 
 router
 .route('/products')
 .get(protect, authorize('publisher'),getProducts)
+.delete(protect,authorize('publisher'), deleteAdminProduct)
 
 router
 .route('/edit-products/:productId')

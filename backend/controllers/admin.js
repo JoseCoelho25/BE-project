@@ -42,9 +42,7 @@ exports.postNewProduct = asyncHandler(async(req,res,next) => {
   });
 })
 
-exports.getAddProduct = asyncHandler(async(req,res,next) => {
-    res.send('Got posted product!')
-})
+
 
 exports.getProducts = asyncHandler(async(req,res,next) => {
     const products = await Product.find();
@@ -152,4 +150,20 @@ exports.adminPhotoUpload = asyncHandler(async(req,res,next) => {
       data: file.name
     });
   })
+})
+
+exports.deleteAdminProduct = asyncHandler(async(req,res,next) => {
+  const userId = req.user._id
+
+  const productId = req.body.productId
+  
+  const product = await Product.findById(productId);
+  
+    if (!product) {
+      return next(new ErrorResponse(`Product not found with id of ${productId}`, 404));
+    }
+  
+    await product.deleteOne();
+  
+    res.status(200).json({ success: true, data: {} });
 })
