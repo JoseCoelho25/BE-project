@@ -3,8 +3,14 @@ const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
-exports.postAddProduct = asyncHandler(async(req,res,next) => {
-    res.send('Posted a product!')
+exports.postNewProduct = asyncHandler(async(req,res,next) => {
+
+  const product = await Product.create(req.body);
+
+  res.status(201).json({
+    success: true,
+    data: product
+  });
 })
 
 exports.getAddProduct = asyncHandler(async(req,res,next) => {
