@@ -153,7 +153,6 @@ exports.adminPhotoUpload = asyncHandler(async(req,res,next) => {
 })
 
 exports.deleteAdminProduct = asyncHandler(async(req,res,next) => {
-  const userId = req.user._id
 
   const productId = req.body.productId
   

@@ -8,8 +8,8 @@ const Products = () => {
     const [products, setProducts] = useState({})
 
 
-    useEffect(() => {
-        const fetchProduct = async () => {
+
+        const fetchProducts = async () => {
           try {
             const response = await fetch(api + '/admin/products',{
               method: 'GET',
@@ -23,13 +23,14 @@ const Products = () => {
           } catch (err) {
             console.log(err);
           }
-        };
+        }
     
-        fetchProduct();
-      }, []);
+        useEffect(() => {
+          fetchProducts();
+        }, []);
 
       const handleRemove = async (_id) => {
-        console.log(_id)
+        console.log(_id);
         try {
           const response = await fetch(api + '/admin/products', {
             method: 'DELETE',
@@ -43,7 +44,10 @@ const Products = () => {
           });
           const data = await response.json();
     
-          // update the cart state after removing the item
+          // Fetch the updated list of products
+          await fetchProducts();
+    
+          // update the products state with the updated list of products
           setProducts(data);
         } catch (err) {
           console.log(err);
@@ -61,7 +65,7 @@ return (
           <p>Product Price</p>
           <p>Product Category</p>
       </div>
-      {products?.data?.map((product) => (
+      {products?.data && products?.data.map((product) => (
         <div key={product._id} className='grid grid-cols-5 mb-2'>
             <p className='grid content-center'>{product.title}</p>
             <p className='grid content-center'>{product.price}€</p>
