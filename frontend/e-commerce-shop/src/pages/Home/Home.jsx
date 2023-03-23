@@ -26,7 +26,7 @@ const Home = ({product}) => {
       {products?.map((product) => (
         <div key={product._id} >
           <Link to={`/products/${product._id}`}>
-            <img src={product.imageUrl} alt="clothes imgs" />
+            <img src={`http://localhost:5000/uploads/${product.imageUrl}`} alt="clothes imgs" />
           </Link>
           <div className='grid grid-cols-2 mr-20'>
             <h2>{product.title}</h2>
