@@ -4,6 +4,8 @@ import { api } from "../../utils/config";
 
 const Editproduct = () => {
   const { productId } = useParams();
+  const [image, setImage] = useState(null);
+
   const [product, setProduct] = useState({
     category: [],
     description: '',
@@ -12,18 +14,24 @@ const Editproduct = () => {
     title: '',
   });
   const navigate = useNavigate()
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(api + `/admin/edit-products/${productId}`,{
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-        credentials: 'include',
-      });
+      const formData = new FormData();
+      formData.append('image', image);
+      Object.entries(product).forEach(([key, value]) => formData.append(key, value));
+
+    const response = await fetch(api + `/admin/edit-products/${productId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: formData,
+      credentials: 'include',
+    });
+
       const data = await response.json();
       console.log(data);
       navigate('/products')
@@ -57,9 +65,10 @@ const Editproduct = () => {
     const { name, value } = event.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: value,
+      [name]: name === 'image' ? prevProduct.image : value,
     }));
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className='mx-auto w-2/3'>
@@ -85,16 +94,10 @@ const Editproduct = () => {
         />
       </div>
       <div>
-        <label htmlFor="imageUrl">Image URL</label>
-        <input
-          type="file"
-          id="imageUrl"
-          name="imageUrl"
-          className='ml-4'
-          // value={product.imageUrl}
-          // onChange={handleChange}
-        />
-      </div>
+  <label htmlFor="image">Image</label>
+  <input type="file" id="image" name="image" onChange={(e) => setImage(e.target.files[0])} />
+</div>
+
       <div className='flex'>
         <label htmlFor="price">Price</label>
         <input
