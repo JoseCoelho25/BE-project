@@ -2,10 +2,39 @@ const Product = require('../models/Product');
 const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const { uuid } = require('uuidv4');
 
 exports.postNewProduct = asyncHandler(async(req,res,next) => {
+  const userId = req.user._id
 
-  const product = await Product.create(req.body);
+  var file;
+  if (req.files && req.files.image) {
+    file = req.files.image;
+  
+    // Make sure the image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      return next(new ErrorResponse(`Please upload an image file`, 400));
+    }
+  
+    // Check filesize
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+      return next(new ErrorResponse(`Please upload an image smaller than ${process.env.MAX_FILE_UPLOAD}`, 400));
+    }
+  
+    // Create custom filename
+    file.name = `photo_${uuid()}${path.parse(file.name).ext}`;
+  
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+      if (err) {
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
+      }
+  
+    });
+  }
+  const productData = {...req.body, userId, imageUrl: file.name}
+
+  const product = await Product.create(productData);
 
   res.status(201).json({
     success: true,
