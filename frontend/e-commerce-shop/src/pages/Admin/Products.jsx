@@ -30,7 +30,11 @@ const Products = () => {
 
 return (
     <div className='mx-auto w-2/3'>
-      <div className='grid grid-cols-5 mb-2 text-xl'>
+      <Link to='/create' className='text-xl border border-black p-2'>
+        Create new Product
+      </Link>
+      
+      <div className='grid grid-cols-5 mb-2 mt-4 text-xl'>
           <p>Product Name</p>
           <p>Product Price</p>
           <p>Product Category</p>
