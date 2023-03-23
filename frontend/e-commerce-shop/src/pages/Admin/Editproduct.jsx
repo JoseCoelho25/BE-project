@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { api } from "../../utils/config";
 
 const Editproduct = () => {
@@ -11,6 +11,27 @@ const Editproduct = () => {
     price: 0,
     title: '',
   });
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(api + `/admin/edit-products/${productId}`,{
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+        credentials: 'include',
+      });
+      const data = await response.json();
+      console.log(data);
+      navigate('/products')
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -38,11 +59,6 @@ const Editproduct = () => {
       ...prevProduct,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add code to submit form data to API
   };
 
   return (
@@ -101,7 +117,10 @@ const Editproduct = () => {
           className='ml-4 w-full'
         />
       </div>
-      <button type="submit">Save</button>
+      
+        <button type="submit" >Save</button>
+      
+      
     </form>
   );
 };

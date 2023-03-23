@@ -9,7 +9,7 @@ export const useAuth = () => {
 
     //is activated each time the user changes - the state changes in the redux
     useEffect(() => {
-        console.log(user)
+        // console.log(user)
         if(user) {
             setAuth(true)
         }else{

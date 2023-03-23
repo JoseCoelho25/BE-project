@@ -43,7 +43,6 @@ if (!product) {
 res
     .status(200)
     .json({ success: true, data: product })
-    .then(() => {
-        res.redirect("http://localhost:5173/api/admin/products");
-    });
+
+
 })

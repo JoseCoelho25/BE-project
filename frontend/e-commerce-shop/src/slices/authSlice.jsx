@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 const user = Cookies.get('token') || null;
 const data = Cookies.get('user') || null
-console.log(data)
+
 
 
 
