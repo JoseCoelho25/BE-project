@@ -26,12 +26,18 @@ const Chat = () => {
   
 
   return (
-    <div className='fixed bottom-20 bg-gray-500 border-'>
-      <h1>Chat</h1>
-      <div id="chat">
+    <div className='fixed bottom-20 bg-gray-500 rounded-lg p-4'>
+      <h1 className='text-center text-xl font-bold mb-4'>Chat</h1>
+      <div id="chat"className='grid grid-cols-1 gap-y-4 '>
         {messages.map((msg, index) => (
-          <div key={index}>
-            <p>{msg.sender}: {msg.message}</p>
+          <div key={index} className=''>
+            {msg.sender === 'other' ? (
+              <p className='bg-blue-400 rounded-lg w-1/2 px-2'>{msg.sender}: {msg.message}</p>
+            ): (
+              <div className='flex justify-end'>
+                <p className='bg-red-400 w-1/2 rounded-lg px-2'>{msg.sender}: {msg.message}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -41,9 +47,11 @@ const Chat = () => {
         if (event.key === 'Enter') {
         sendMessage()
         }
-      }}/>
+      }}
+        className='mt-6 px-2'
+      />
 
-      <button onClick={sendMessage}>Enviar mensagem</button>
+      <button onClick={sendMessage} className='border-black border-2 rounded-full px-2 ml-2'>Enviar mensagem</button>
     </div>
   )
 }
