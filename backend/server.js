@@ -8,7 +8,11 @@ const connectDB = require('./config/db');
 const colors = require('colors');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
-const WebSocket = require('ws');
+const http = require('http')
+const { Server } = require('socket.io')
+
+const app = express();
+const server = http.createServer(app)
 
 
 // Route files
@@ -19,9 +23,6 @@ const auth = require('./routes/auth')
 // Load env vars
 dotenv.config({ path: './config/config.env' });
 
-connectDB();
-
-const app = express();
 
 // Body parser
 app.use(express.json());
@@ -51,33 +52,39 @@ app.use('/api/auth', auth)
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
 
-const server = app.listen(
-PORT,
-console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
-);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true
+  }
+})
 
-const wss = new WebSocket.Server({ server });
+//python3 -m http.server
+io.on('connection', (socket) => {
+  console.log('a user connected: ', socket.id)
+  
+  socket.on('send_message', (data) => {
+    socket.broadcast.emit('receive_message', data)
+  })
+  // socket.on('disconnect', () => {
+  //   console.log('user disconnected')
+  // })
+})
 
-wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
+server.listen(process.env.PORT, async () => {
+  try {
+    await connectDB(process.env.MONGO_URL)
+    console.log(`server is running on port ${process.env.PORT}`.yellow.bold)
+  } catch (err) {
+    console.log(err.red)
+  }
+})
 
-  ws.on('message', (message) => {
-    console.log(`Received message: ${message}`);
 
-    // Broadcast the message to all connected WebSocket clients
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
-  });
 
-  ws.on('close', () => {
-    console.log('WebSocket client disconnected');
-  });
-});
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {

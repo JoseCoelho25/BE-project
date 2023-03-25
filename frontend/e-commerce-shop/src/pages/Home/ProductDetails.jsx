@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from "../../utils/config";
+import Chat from '../../components/Chat'
 
 
 const ProductDetails = () => {
@@ -47,7 +48,7 @@ const ProductDetails = () => {
         <p className='text-sm tracking-wide leading-loose'>{product?.data?.description}</p>
         <button className='mt-20 border w-full border-black p-2 bg' onClick={handleAddToCart}>Adicionar ao carrinho</button>
       </div>
-      
+      <Chat />
     </div>
   );
 };
