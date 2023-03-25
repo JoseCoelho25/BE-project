@@ -29,30 +29,33 @@ const Products = () => {
           fetchProducts();
         }, []);
 
-      const handleRemove = async (_id) => {
-        console.log(_id);
-        try {
-          const response = await fetch(api + '/admin/products', {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-              productId: _id,
-            }),
-          });
-          const data = await response.json();
-    
-          // Fetch the updated list of products
-          await fetchProducts();
-    
-          // update the products state with the updated list of products
-          setProducts(data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
+        const handleRemove = async (_id) => {
+          console.log(_id);
+          try {
+            const response = await fetch(api + '/admin/products', {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                productId: _id,
+              }),
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+              // Remove the deleted product from the products state
+              setProducts(prevProducts => ({
+                ...prevProducts,
+                data: prevProducts.data.filter(product => product._id !== _id)
+              }));
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        };
+      
 
 return (
     <div className='mx-auto w-2/3'>
@@ -65,7 +68,7 @@ return (
           <p>Product Price</p>
           <p>Product Category</p>
       </div>
-      {products?.data && products?.data.map((product) => (
+      {products.data && products?.data.map((product) => (
         <div key={product._id} className='grid grid-cols-5 mb-2'>
             <p className='grid content-center'>{product.title}</p>
             <p className='grid content-center'>{product.price}€</p>
