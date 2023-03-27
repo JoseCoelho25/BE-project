@@ -63,11 +63,20 @@ const Editproduct = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: name === 'image' ? prevProduct.image : value,
-    }));
+    if (name === "category") {
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        category: value.split(",").map((category) => category.trim()),
+      }));
+    } else {
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: name === "image" ? prevProduct.image : value,
+      }));
+    }
   };
+  
+  
   
 
   return (

@@ -62,47 +62,58 @@ exports.getAdminProduct = asyncHandler(async(req,res,next) => {
 
     res.status(201).json({success:true, data:product})
 })
-
 exports.updateEditProduct = asyncHandler(async(req,res,next) => {
 
-    const product = await Product.findByIdAndUpdate(req.params.productId, req.body, {
-        new: true,
-      });
-      
-      if (!product) {
-        return next(new ErrorResponse(`Product not found with id of ${req.params.productId}`, 404));
-      }
-      
-      if (req.files && req.files.image) {
-        const file = req.files.image;
-      
-        // Make sure the image is a photo
-        if (!file.mimetype.startsWith('image')) {
-          return next(new ErrorResponse(`Please upload an image file`, 400));
-        }
-      
-        // Check filesize
-        if (file.size > process.env.MAX_FILE_UPLOAD) {
-          return next(new ErrorResponse(`Please upload an image smaller than ${process.env.MAX_FILE_UPLOAD}`, 400));
-        }
-      
-        // Create custom filename
-        file.name = `photo_${product._id}${path.parse(file.name).ext}`;
-      
-        file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-          if (err) {
-            console.error(err);
-            return next(new ErrorResponse(`Problem with file upload`, 500));
-          }
-      
-          await Product.findByIdAndUpdate(product._id, { imageUrl: file.name });
-        });
-      }
-      
-      res.status(200).json({ success: true, data: product });
-      
+  // Extract the category array from the request body
+  const { category, ...rest } = req.body;
 
-})
+  // Convert the category string to an array and trim any whitespace
+  const categoryArray = category.split(',').map(cat => cat.trim());
+
+  // Combine the remaining fields and the category array into an object
+  const updatedProduct = {
+    ...rest,
+    category: categoryArray
+  };
+
+  const product = await Product.findByIdAndUpdate(req.params.productId, updatedProduct, {
+    new: true,
+  });
+
+  if (!product) {
+    return next(new ErrorResponse(`Product not found with id of ${req.params.productId}`, 404));
+  }
+
+  if (req.files && req.files.image) {
+    const file = req.files.image;
+
+    // Make sure the image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      return next(new ErrorResponse(`Please upload an image file`, 400));
+    }
+
+    // Check filesize
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+      return next(new ErrorResponse(`Please upload an image smaller than ${process.env.MAX_FILE_UPLOAD}`, 400));
+    }
+
+    // Create custom filename
+    file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+      if (err) {
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
+      }
+
+      await Product.findByIdAndUpdate(product._id, { imageUrl: file.name });
+    });
+  }
+
+  res.status(200).json({ success: true, data: product });
+
+});
+
 
 exports.adminPhotoUpload = asyncHandler(async(req,res,next) => {
     const product = await Product.findById(req.params.productId)
