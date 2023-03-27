@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { api } from "../../utils/config";
 import Chat from '../../components/Chat'
 
-
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const handleAddToCart = async () => {
     try {
@@ -20,6 +20,10 @@ const ProductDetails = () => {
       });
       const data = await response.json();
       console.log(data);
+      setAddedToCart(true);
+      setTimeout(() => {
+        setAddedToCart(false);
+      }, 2000);
     } catch (err) {
       console.log(err);
     }
@@ -47,6 +51,7 @@ const ProductDetails = () => {
         <p className='mb-10'>{product?.data?.price} EUR</p>
         <p className='text-sm tracking-wide leading-loose'>{product?.data?.description}</p>
         <button className='mt-20 border w-full border-black p-2 bg' onClick={handleAddToCart}>Adicionar ao carrinho</button>
+        {addedToCart && <div className="text-green-500 text-xl mt-6 text-center">Produto adicionado ao carrinho</div>}
       </div>
       <Chat />
     </div>
