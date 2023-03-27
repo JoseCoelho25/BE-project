@@ -145,7 +145,7 @@ console.log((totalPrice).toFixed(2))
       {cart.data && cart.data.map((product) => (
         <div key={product.productId} className='flex'>
           <div className='w-1/3'>
-            <img src={product.product.imageUrl} alt="cart-img" className='h-72' />
+            <img src={`http://localhost:5000/uploads/${product.product.imageUrl}`} alt="cart-img" className='h-72' />
             <p className='text-xl mt-4'>{product.product.title}</p>
             <p className='text-xl mt-4'>{(product.product.price*product.quantity).toFixed(2)}€</p>
             <div className='flex text-xl mx-2 gap-x-6 mt-4'>
