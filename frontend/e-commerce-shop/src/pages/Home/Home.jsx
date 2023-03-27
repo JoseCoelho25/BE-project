@@ -22,14 +22,15 @@ const Home = ({product}) => {
     return <div>{error}</div>;
   }
 
-  const [numCols, setNumCols] = useState(2);
+  const [numCols, setNumCols] = useState(1);
   const [gridWidth, setGridWidth] = useState('w-1/2');
 
   useEffect(() => {
-    if (numCols === 4) {
-      setGridWidth('w-full');
+    if (numCols === 1) {
+      setGridWidth('w-1/2')
+      ;
     } else {
-      setGridWidth('w-1/2');
+      setGridWidth('w-full');
     }
   }, [numCols]);
 
