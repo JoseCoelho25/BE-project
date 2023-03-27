@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import {AiOutlineClose} from 'react-icons/ai'
 
 const socket = io.connect('http://localhost:5000');
 
@@ -38,8 +39,12 @@ const Chat = () => {
   }
 
   return (
-    <div className="fixed bottom-20 bg-gray-500 rounded-lg p-4">
-      <h1 className="text-center text-xl font-bold mb-4">Precisa de ajuda?</h1>
+    <div className="fixed bottom-20 bg-gray-500 rounded-lg p-4 right-20">
+      <div className='flex justify-between mx-4'>
+        <h1 className="text-center text-xl font-bold mb-4">Precisa de ajuda?</h1>
+        <AiOutlineClose className='w-5 h-5 cursor-pointer' onClick={()=> setShowChat(false)} />
+      </div>
+      
       <h3 className="text-center text-lg mb-4">Fale com um assistente em tempo real!</h3>
       <div id="chat" className="grid grid-cols-1 gap-y-4 ">
         {messages.map((msg, index) => (
