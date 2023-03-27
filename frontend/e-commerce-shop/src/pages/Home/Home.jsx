@@ -23,15 +23,24 @@ const Home = ({product}) => {
   }
 
   const [numCols, setNumCols] = useState(2);
+  const [gridWidth, setGridWidth] = useState('w-1/2');
+
+  useEffect(() => {
+    if (numCols === 4) {
+      setGridWidth('w-full');
+    } else {
+      setGridWidth('w-1/2');
+    }
+  }, [numCols]);
 
 
   return (
     <div>
       <div className='flex justify-end mr-28 mb-6'>
-        <BsColumnsGap onClick={() => setNumCols(numCols === 1 ? 3 : 1)} className='h-10 w-10 cursor-pointer active:bg-gray-400'/>
+        <BsColumnsGap onClick={() => setNumCols(numCols === 1 ? 4 : 1)} className='h-10 w-10 cursor-pointer active:bg-gray-400'/>
       </div>
       
-    <div className={`grid grid-cols-${numCols} mx-8 gap-y-10 mb-20`}>
+    <div className={`grid grid-cols-${numCols - 1}  gap-y-10 mb-20 mx-auto ${gridWidth}`}>
       
 
       {products?.map((product) => (
@@ -39,9 +48,9 @@ const Home = ({product}) => {
           <Link to={`/products/${product._id}`}>
             <img src={`http://localhost:5000/uploads/${product.imageUrl}`} alt="clothes imgs" />
           </Link>
-          <div className='grid grid-cols-2 mr-20'>
+          <div className='grid grid-cols-2 mx-auto'>
             <h2>{product.title}</h2>
-            <p className='text-end'>{product.price}€</p>
+            <p className='text-end mr-14'>{product.price}€</p>
           </div>
           {/* <p>{product.description}</p> */}
         </div>))}
