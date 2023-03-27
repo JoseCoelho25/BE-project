@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts } from '../../slices/shopSlice';
+import {BsColumnsGap} from 'react-icons/bs'
 
 const Home = ({product}) => {
   const dispatch = useDispatch();
@@ -21,8 +22,18 @@ const Home = ({product}) => {
     return <div>{error}</div>;
   }
 
+  const [numCols, setNumCols] = useState(2);
+
+
   return (
-    <div className='grid grid-cols-2 mx-8 gap-y-10 mb-20'>
+    <div>
+      <div className='flex justify-end mr-28 mb-6'>
+        <BsColumnsGap onClick={() => setNumCols(numCols === 1 ? 3 : 1)} className='h-10 w-10 cursor-pointer active:bg-gray-400'/>
+      </div>
+      
+    <div className={`grid grid-cols-${numCols} mx-8 gap-y-10 mb-20`}>
+      
+
       {products?.map((product) => (
         <div key={product._id} >
           <Link to={`/products/${product._id}`}>
@@ -34,6 +45,7 @@ const Home = ({product}) => {
           </div>
           {/* <p>{product.description}</p> */}
         </div>))}
+    </div>
     </div>
   )
 }
