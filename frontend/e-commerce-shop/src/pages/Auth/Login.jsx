@@ -29,7 +29,7 @@ const Login = () => {
   //Clean all auth states
   useEffect(()=> {
     dispatch(reset());
-  }, dispatch);
+  }, []);
 
   return (
     <div className="bg-black w-1/2 xl:w-1/3 mx-auto p-10 my-20 border-2 border-gray-700">
