@@ -8,11 +8,15 @@ const config = requestConfig("POST", data);
 
 try {
     const res = await fetch(api + '/auth/register', config);
-    const json = await res.json(); // parse JSON response
+    if (res.status === 200) {
+        const json = await res.json(); // parse JSON response
         Cookies.set('token', json.token);
         Cookies.set('user', JSON.stringify(json.userData)); // set user data in cookie
-
         return json;
+    } else {
+        const errorJson = await res.json(); // parse JSON error response
+        return errorJson;
+    }
     } catch (error) {
     console.log(error);
     }
@@ -31,16 +35,21 @@ const login = async(data) => {
 
     try {
         const res = await fetch(api + '/auth/login', config);
-        const json = await res.json(); // parse JSON response
+        
+        if (res.status === 200) {
+            const json = await res.json(); // parse JSON response
             Cookies.set('token', json.token);
             Cookies.set('user', JSON.stringify(json.userData)); // set user data in cookie
-
             return json;
-        } catch (error) {
-        console.log(error);
+        } else {
+            const errorJson = await res.json(); // parse JSON error response
+            return errorJson;
         }
-
+    } catch (error) {
+        console.log(error);
+    }
 }
+
 
 
 const authService = {

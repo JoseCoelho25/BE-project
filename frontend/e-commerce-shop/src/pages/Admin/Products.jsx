@@ -63,7 +63,7 @@ return (
         Create new Product
       </Link>
       
-      <div className='grid grid-cols-5 mb-2 mt-4 text-xl'>
+      <div className='grid grid-cols-5 mb-2 mt-16 text-2xl'>
           <p>Product Name</p>
           <p>Product Price</p>
           <p>Product Category</p>
@@ -72,7 +72,7 @@ return (
         <div key={product._id} className='grid grid-cols-5 mb-2'>
             <p className='grid content-center'>{product.title}</p>
             <p className='grid content-center'>{product.price}€</p>
-            <p className='grid content-center'>{product.category}</p>
+            <p className='grid content-center'>{product.category.join(', ')}</p>
             <Link to={`/edit-product/${product._id}`} className='border border-black w-28 h-10 text-center content-center grid'>Edit Product</Link>
             <button className='border border-black w-32 h-10 text-center content-center grid' onClick={()=> handleRemove(product._id)}>Remove Product</button>
       </div>
