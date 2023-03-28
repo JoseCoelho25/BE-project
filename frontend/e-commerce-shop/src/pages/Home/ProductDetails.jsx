@@ -45,7 +45,7 @@ const ProductDetails = () => {
 
   return (
     <div className='flex justify-end mb-20'>
-      <img src={`http://localhost:5000/uploads/${product?.data?.imageUrl}`} alt="product-img" className='w-1/3'/>
+      {product?.data?.imageUrl && <img src={`http://localhost:5000/uploads/${product.data.imageUrl}`} alt="product-img" className='w-1/3'/>}
       <div className='w-1/3 p-48 '>
         <h1>{product?.data?.title}</h1>
         <p className='mb-10'>{product?.data?.price} EUR</p>
