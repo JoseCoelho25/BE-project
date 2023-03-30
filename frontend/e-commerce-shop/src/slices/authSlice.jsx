@@ -52,6 +52,21 @@ export const login = createAsyncThunk(
     }
 )
 
+export const resetPassword = createAsyncThunk(
+    'auth/resetPassword',
+    async (user, thunkAPI) => {
+        console.log(user)
+        const data = await authService.resetPassword(user)
+
+        //check for errors
+        if(data.error) {
+            return thunkAPI.rejectWithValue(data.error)
+        }
+
+        return data;
+    }
+)
+
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -99,6 +114,12 @@ export const authSlice = createSlice({
         .addCase(login.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.user = null;
+        })
+        .addCase(resetPassword.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
             state.user = null;
         })
     }

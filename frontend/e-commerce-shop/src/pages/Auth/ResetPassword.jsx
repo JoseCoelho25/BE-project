@@ -1,36 +1,40 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Message from '../../components/Message'
 
 //Redux
-import { login,reset } from '../../slices/authSlice'
+import { resetPassword,reset, } from '../../slices/authSlice'
 
 const ResetPassword = () => {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('')
 
-  const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-  const {loading, error} = useSelector((state) => state.auth)
+    const {loading, error} = useSelector((state) => state.auth)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
     const user = {
-      email,
-      password
+        email,
+        password
     }
 
-    dispatch(login(user))
-  }
+    dispatch(resetPassword(user))
+      .then(() => {
+        navigate('/login');
+      });
+}
 
   //Clean all auth states
-  useEffect(()=> {
-    dispatch(reset());
-  }, []);
+    useEffect(()=> {
+        dispatch(reset());
+    }, []);
+    
   return (
     <div className="bg-black w-1/2 xl:w-1/3 mx-auto p-10 my-20 border-2 border-gray-700">
         <h2 className="text-6xl text-center text-white">Shop Easy</h2>

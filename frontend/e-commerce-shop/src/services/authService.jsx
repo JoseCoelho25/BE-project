@@ -50,12 +50,35 @@ const login = async(data) => {
     }
 }
 
+//Reset a user password
+const resetPassword = async(data) => {
+    const config = requestConfig('POST', data)
+
+    try {
+        const res = await fetch(api + '/auth/resetpassword', config);
+        
+        if (res.status === 200) {
+            const json = await res.json(); // parse JSON response
+            
+            return { success: true };
+
+        } else {
+            const errorJson = await res.json(); // parse JSON error response
+            return errorJson;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 
 const authService = {
     register,
     logout,
     login,
+    resetPassword,
 }
 
 export default authService;
