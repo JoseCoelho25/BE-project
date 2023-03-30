@@ -10,6 +10,9 @@ import Success from './pages/Checkout/Success'
 import Cancel from './pages/Checkout/Cancel'
 import EditProduct from './pages/Admin/Editproduct';
 import Products from './pages/Admin/Products';
+import Cart from './pages/Cart/Cart';
+import CreateProduct from './pages/Admin/CreateProduct';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 //import EditProfile from './pages/EditProfile/EditProfile'
 
@@ -18,9 +21,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 //Hooks
 import { useAuth } from './hooks/useAuth';
-import Cart from './pages/Cart/Cart';
-import CreateProduct from './pages/Admin/CreateProduct';
-
 
 
 
@@ -46,6 +46,7 @@ function App() {
           <Route path="/cancel" element={<Cancel />} /> 
           <Route path="/login" element={!auth ? <Login /> : <Navigate to='/' />} />
           <Route path="/register" element={!auth ? <Register /> : <Navigate to='/' />} />
+          <Route path="/resetPassword" element={!auth ? <ResetPassword /> : <Navigate to='/' />} />
         </Routes>
       </Layout>
       </BrowserRouter>

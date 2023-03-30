@@ -45,6 +45,9 @@ const Login = () => {
       <p className="text-xl mt-10 text-center text-white">
         Não tem conta? <Link to="/register" className="text-blue-500 font-bold">Clique aqui.</Link>
       </p>
+      <p className="text-xl mt-10 text-center text-white">
+        Esqueceu a password? <Link to="/resetPassword" className="text-blue-500 font-bold">Clique aqui.</Link>
+      </p>
     </div>
   )
 }
