@@ -1,0 +1,88 @@
+[
+{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "role": "user",
+    "password": "password123",
+    "cart": {
+        "items": []
+    },
+    "createdAt": "2023-03-30T00:00:00.000Z"
+},
+{
+    "name": "jose",
+    "email": "teste@teste.com",
+    "role": "user",
+    "password": "$2a$10$YuT9BS65D06BJ423opfHreLHNfOigrB2RxdSx6Xbx9RBF6uMpeDli",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-14T18:25:12.300Z"
+  },
+  
+  {
+    "name": "jose",
+    "email": "teste1@teste.com",
+    "role": "user",
+    "password": "$2a$10$M1LGPWXEhECI9Bqfb.Yy1uFMZKSTR823mWOo5xrYaiEX1oCaMtE2C",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-18T16:51:15.362Z"
+  },
+  
+  {
+    "name": "liliana",
+    "email": "teste2@teste.com",
+    "role": "user",
+    "password": "$2a$10$PydcumoianCXltO72OIsnOCmZXh6wRIstAcoqcdIkQRqU8M0aJQdK",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-18T23:09:32.356Z"
+  },
+  
+  {
+    "name": "admin",
+    "email": "admin@admin.com",
+    "role": "publisher",
+    "password": "$2a$10$hqmhvNt2nMpirb5IDXCj5ucl9o0MsNyH9R4baPYCUmpW6Oz8WSA/O",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-21T14:59:28.770Z"
+  },
+  
+  {
+    "name": "admin",
+    "email": "admin2@admin.com",
+    "role": "publisher",
+    "password": "$2a$10$XxH.lqJEqIpsd9D3vxG88.2dgBHJlx76Pu74vp4alnKocRPm/KnRG",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-21T17:25:59.685Z"
+  },
+  
+  {
+    "name": "tomate",
+    "email": "tomate@tomate.com",
+    "role": "user",
+    "password": "$2a$10$j97Rj7qwx.9UdBtCEWM/PO0ULDLFf3g8q.aY4jEBkzoMTFG3duROy",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-27T12:35:53.352Z"
+  },
+  
+  {
+    "name": "admin3",
+    "email": "admin3@admin.com",
+    "role": "user",
+    "password": "$2a$10$BVQYTsm2e3Rop6FJTIeWGuDIUMlICSsra//z3d5ipIMIClDbjgWPO",
+    "cart": {
+      "items": []
+    },
+    "createdAt": "2023-03-28T12:56:20.609Z"
+  }
+]
