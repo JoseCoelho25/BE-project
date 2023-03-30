@@ -66,11 +66,35 @@ exports.logout = asyncHandler(async (req, res, next) => {
     });
 })
 
+// @desc      Reset user password
+// @route     POST /api/auth/reset-password
+// @access    Public
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+    // Get email and new password from request body
+    const { email, password } = req.body;
+  
+    // Find user with matching email
+    const user = await User.findOne({ email });
+  
+    // If user not found, return error response
+    if (!user) {
+      return next(new ErrorResponse('User not found with that email', 404));
+    }
+  
+    // Set new password and save user
+    await User.updateOne({ password: password });
+   
+    // Send success response
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully',
+    });
+  });
+
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token
     const token = user.getSignedJwtToken();
-    const userData = user
 
     //res.status(200).json({ success: true, token });
     const options = {
