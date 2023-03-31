@@ -173,7 +173,7 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
 
   // Get all products in the user's cart
   const cartItems = user.cart.items;
-  
+
 
     const session = await stripe.checkout.sessions.create({ 
       payment_method_types: ["card"], 
@@ -193,26 +193,10 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     });
 
     const paymentIntentId = session.payment_intent;
-
-      
-      // Create a new order document
-        const order = new Order({
-          user: userId,
-          products: cartItems.map(item => {
-            return {
-              product: item.product._id,
-              quantity: item.quantity
-            }
-          }),
-          amount: session.amount_total / 100,
-          transactionId: session.payment_intent,
-          createdAt: Date.now(),
-        });
-        await Order.create(order);
-     
     
     res.json({ id: session.id,  paymentIntentId });   
   }) 
+
 
   exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
@@ -239,27 +223,13 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
       //payment_method: 'card',
     });
 
-    // Create a new order document
-    const order = new Order({
-      user: userId,
-      products: cartItems.map(item => {
-        return {
-          product: item.product._id,
-          quantity: item.quantity
-        }
-      }),
-      amount: session.amount_total / 100,
-      transactionId: session.payment_intent,
-      createdAt: Date.now(),
-    });
-    const newOrder = await Order.create(order);
+    
   
     res.status(200).json({
       success: true,
       paymentIntent: paymentIntent,
       client_secret: paymentIntent.client_secret,
       payment_method: paymentIntent.payment_method_types,
-      data:newOrder
     });
   });
   
