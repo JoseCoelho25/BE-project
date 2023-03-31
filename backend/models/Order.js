@@ -18,6 +18,17 @@ const orderSchema = new Schema ({
         required: true,
         ref: 'User'
         }
+    },
+    amount: {
+        type: Number,
+        required: true,
+    },
+    transactionId:{
+        type: String,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
     
 });

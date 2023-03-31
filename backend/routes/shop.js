@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getProducts, getProduct, postCart, getCart, deleteItemFromCart, increaseCartQuantity,decreaseCartQuantity, createCheckoutSession } = require('../controllers/shop');
+const { getProducts, getProduct, postCart, getCart, deleteItemFromCart, increaseCartQuantity,decreaseCartQuantity, createCheckoutSession, createPaymentIntent } = require('../controllers/shop');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
@@ -30,5 +30,8 @@ router
 router
 .route('/checkout')
 .post(protect, createCheckoutSession)
+
+router.route('/create-payment-intent')
+.post(protect, createPaymentIntent)
 
 module.exports = router;

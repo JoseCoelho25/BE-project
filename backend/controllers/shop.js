@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const User = require('../models/User')
+const Order = require('../models/Order')
 const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
@@ -176,7 +177,7 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     const session = await stripe.checkout.sessions.create({ 
       payment_method_types: ["card"], 
       mode: "payment", 
-      success_url: "http://localhost:5173/success", 
+      success_url: "http://localhost:5173/success?payment_intent={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:5173/cancel", 
       line_items: cartItems.map((item) => ({ 
         price_data: { 
@@ -189,6 +190,61 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
         quantity: item.quantity, // fixed cartItems.quantity to item.quantity
       })),
     });
+
+    const paymentIntentId = session.payment_intent;
+    //console.log(paymentIntentId)
+//console.log(session.payment_status)
+    if (session.payment_status === "paid") {
+      
+      // Create a new order document
+        const order = new Order({
+          user: userId,
+          products: cartItems.map(item => {
+            return {
+              product: item.product._id,
+              quantity: item.quantity
+            }
+          }),
+          amount: session.amount_total / 100,
+          transactionId: session.payment_intent,
+          createdAt: Date.now(),
+        });
+        await Order.create(order);
+    } 
     
-    res.json({ id: session.id });   
+    res.json({ id: session.id,  paymentIntentId });   
   }) 
+
+  exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+  
+    const user = await User.findById(userId);
+  
+    if (!user) {
+      return next(new ErrorResponse('User not found', 404));
+    }
+  
+    // Get the cart items from the user
+    const cartItems = user.cart.items;
+  
+    // Calculate the total amount of the cart items
+    const totalAmount = cartItems.reduce((total, item) => {
+      return total + item.product.price * item.quantity;
+    }, 0);
+  
+    // Create a payment intent with the total amount
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(totalAmount * 100),
+      currency: "eur",
+      payment_method_types: ['card'],
+      //payment_method: 'card',
+    });
+  console.log(paymentIntent.payment_method)
+    res.status(200).json({
+      success: true,
+      paymentIntent: paymentIntent,
+      client_secret: paymentIntent.client_secret,
+      payment_method: paymentIntent.payment_method_types
+    });
+  });
+  
