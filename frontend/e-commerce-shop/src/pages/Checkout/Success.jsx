@@ -23,18 +23,17 @@ const Success = () => {
           body: JSON.stringify({ paymentIntentId })
       });
       const data = await response.json();
-      console.log(data);
+      
       setPaymentIntent(data);
     };
     
     fetchPaymentIntent();
   }, [location.search]);
+  console.log(paymentIntent);
 
-  console.log(paymentIntent.success);
- 
   return (
     <div className='mx-auto w-1/2 text-center pt-14'>
-      {paymentIntent.success === true ? (
+      {paymentIntent && paymentIntent.success === true ? (
         <div className='grid gap-y-6'>
           <p className='text-2xl'>Payment successfull.</p>
           <p className='text-xl'>Thank you for your purchase!</p>

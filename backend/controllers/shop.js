@@ -31,10 +31,11 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
 })
 
 exports.postCart = asyncHandler(async (req, res, next) => {
+ 
     const product = await Product.findById(req.body._id);
-
-    const userId = req.user._id
   
+    const userId = req.user._id
+ 
     const user = await User.findById(userId);
 
     if (!user) {
@@ -192,9 +193,7 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     });
 
     const paymentIntentId = session.payment_intent;
-    //console.log(paymentIntentId)
-//console.log(session.payment_status)
-    if (session.payment_status === "paid") {
+
       
       // Create a new order document
         const order = new Order({
@@ -210,7 +209,7 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
           createdAt: Date.now(),
         });
         await Order.create(order);
-    } 
+     
     
     res.json({ id: session.id,  paymentIntentId });   
   }) 
@@ -239,12 +238,28 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
       payment_method_types: ['card'],
       //payment_method: 'card',
     });
-  console.log(paymentIntent.payment_method)
+
+    // Create a new order document
+    const order = new Order({
+      user: userId,
+      products: cartItems.map(item => {
+        return {
+          product: item.product._id,
+          quantity: item.quantity
+        }
+      }),
+      amount: session.amount_total / 100,
+      transactionId: session.payment_intent,
+      createdAt: Date.now(),
+    });
+    const newOrder = await Order.create(order);
+  
     res.status(200).json({
       success: true,
       paymentIntent: paymentIntent,
       client_secret: paymentIntent.client_secret,
-      payment_method: paymentIntent.payment_method_types
+      payment_method: paymentIntent.payment_method_types,
+      data:newOrder
     });
   });
   

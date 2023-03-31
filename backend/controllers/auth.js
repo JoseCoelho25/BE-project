@@ -82,7 +82,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     }
   
     // Set new password and save user
-    await User.updateOne({ password: password });
+    await User.findOneAndUpdate({ password: password });
    
     // Send success response
     res.status(200).json({

@@ -51,7 +51,7 @@ this.password = await bcrypt.hash(this.password, salt);
 });
 
 //Encrypt password on update using bcrypt
-UserSchema.pre('updateOne', async function(next) {
+UserSchema.pre('findOneAndUpdate', async function(next) {
     const salt = await bcrypt.genSalt(10);
     console.log(this)
     this._update.password = await bcrypt.hash(this._update.password, salt);
