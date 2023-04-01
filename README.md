@@ -3,7 +3,7 @@
 Shop-Easy
 E-commerce-clothes shop
 
-This project was developed as part of the final project for the Full-Stack Web Development course at Flag.pt. I would like to thank Fernando for providing guidance and support throughout the course. I would also like to thank my classmates for their feedback and suggestions during the development of this project.
+This project was developed as part of the final project for the Full-Stack Web Development course at Flag.pt. 
 
 Tech Stack
 Node.js: for server-side JavaScript
