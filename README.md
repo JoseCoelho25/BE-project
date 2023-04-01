@@ -56,7 +56,7 @@ First the server
 ``cd backend``  
 To install the dependencies run:  
 ``npm install``  
-Create a .env file based on the provided env.default file at the root folder, and fill in the required environment variables.  
+Create a .env file based on the provided env.default file at the config file, and fill in the required environment variables.  
 
 Seed the database with some initial data by running the following command:  
 ``node seeder.js -i``  
