@@ -21,6 +21,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 //Hooks
 import { useAuth } from './hooks/useAuth';
+import SingleOrder from './pages/Order/SingleOrder';
 
 
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/products/:productId" element={auth ? <ProductDetails/> : <Navigate to='/login'/>} ></Route>
           <Route path='/create' element={<CreateProduct/>} />
           <Route path='/cart' element={<Cart/>} />
+          <Route path='/order/:orderId' element={<SingleOrder/>} />
           <Route path="/success" element={<Success />} /> 
           <Route path="/cancel" element={<Cancel />} /> 
           <Route path="/login" element={!auth ? <Login /> : <Navigate to='/' />} />

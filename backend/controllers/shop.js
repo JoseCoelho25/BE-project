@@ -78,8 +78,7 @@ exports.getCart = asyncHandler(async(req,res,next) => {
 
 exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
   const productId = req.body.productId;
-  // console.log(productId)
-  // console.log(req.user)
+  
   const userId = req.user._id
 
   const user = await User.findById(userId);
@@ -233,3 +232,42 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     });
   });
   
+  exports.createOrder = asyncHandler(async(req,res,next) => {
+     // Parse the data from the user cart cookie
+     const user = JSON.parse(req.cookies.user);
+
+  // Map the items in the cart to the products array in the order
+  const products = user.cart.items.map(item => ({
+    product: item.product,
+    quantity: item.quantity,
+  }));
+
+  // Get the user's email and userId from the cookie
+  const { email, _id } = JSON.parse(req.cookies.user);
+
+  // Calculate the total amount of the order
+  const amount = user.cart.items.reduce((total, item) => {
+    return total + (item.product.price * item.quantity);
+  }, 0);
+
+  // Create a new order object
+  const order = new Order({
+    products,
+    user: {
+      email,
+      userId:_id,
+    },
+    amount,
+  });
+
+  // Save the order to the database
+  const orders = await Order.create(order)
+
+  res.status(200).json({orders})
+  })
+
+  exports.getOrder = asyncHandler(async(req,res,next) => {
+    const order = await Order.findById(req.params.orderId)
+
+    res.status(200).json({order})
+  })

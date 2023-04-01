@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { api } from "../../utils/config";
+import Cookies from 'js-cookie';
 
 const Success = () => {
+  const userCookie = Cookies.get('user');
+  const userParsed = JSON.parse(userCookie);
+
+  
   const location = useLocation();
   const [paymentIntent, setPaymentIntent] = useState(null);
+  const [order, setOrder] = useState({})
 
   useEffect(() => {
     const fetchPaymentIntent = async () => {
@@ -29,7 +35,29 @@ const Success = () => {
     
     fetchPaymentIntent();
   }, [location.search]);
-  console.log(paymentIntent);
+  
+  useEffect(() => {
+    const handleClick = async(userParsed) => {
+      try {
+        const response = await fetch(api + '/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        const data = await response.json();
+        console.log(data)
+        setOrder(data.orders)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    handleClick();
+  }, []);
+
+  console.log(order._id)
 
   return (
     <div className='mx-auto w-1/2 text-center pt-14'>
@@ -42,6 +70,10 @@ const Success = () => {
       ): (
         <div>Something went wrong! No payment received!</div>
       )}
+      <Link to={`/order/${order._id}`}>
+        <button >Receipt</button>
+      </Link>
+      
     </div>
   );
 };
