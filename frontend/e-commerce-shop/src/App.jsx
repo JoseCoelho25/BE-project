@@ -41,11 +41,11 @@ function App() {
           <Route path="/products" element={auth ? <Products /> : <Navigate to='/login'/>} />
           <Route path="/edit-product/:productId" element={auth ? <EditProduct /> : <Navigate to='/login'/>} />
           <Route path="/products/:productId" element={auth ? <ProductDetails/> : <Navigate to='/login'/>} ></Route>
-          <Route path='/create' element={<CreateProduct/>} />
-          <Route path='/cart' element={<Cart/>} />
-          <Route path='/order/:orderId' element={<SingleOrder/>} />
-          <Route path="/success" element={<Success />} /> 
-          <Route path="/cancel" element={<Cancel />} /> 
+          <Route path='/create' element={auth ? <CreateProduct/> : <Navigate to='/login'/>} />
+          <Route path='/cart' element={auth ? <Cart/> : <Navigate to='/login'/>} />
+          <Route path='/order/:orderId' element={auth ? <SingleOrder/> : <Navigate to='/login'/>} />
+          <Route path="/success" element={auth ? <Success/> : <Navigate to='/login'/>} /> 
+          <Route path="/cancel" element={auth ? <Cancel/> : <Navigate to='/login'/>} /> 
           <Route path="/login" element={!auth ? <Login /> : <Navigate to='/' />} />
           <Route path="/register" element={!auth ? <Register /> : <Navigate to='/' />} />
           <Route path="/resetPassword" element={!auth ? <ResetPassword /> : <Navigate to='/' />} />
