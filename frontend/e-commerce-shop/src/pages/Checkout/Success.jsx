@@ -71,7 +71,7 @@ const Success = () => {
         <div>Something went wrong! No payment received!</div>
       )}
       <Link to={`/order/${order._id}`}>
-        <button >Receipt</button>
+        <button className='border border-black px-2 mt-4'>Receipt</button>
       </Link>
       
     </div>

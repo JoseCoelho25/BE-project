@@ -23,10 +23,10 @@ const SingleOrder = () => {
   }, [orderId]);
 
   return (
-    <div className='mx-auto w-1/2'>
+    <div className='mx-auto w-1/2 grid gap-y-4'>
         <h2 className='text-center text-2xl'>Order Receipt:</h2>
-        <p>Amount: {order?.order?.amount} EUR</p>
-        <p>Products:</p>
+        <p className='text-xl'>Amount: {order?.order?.amount} EUR</p>
+        <p className='text-xl'>Products:</p>
         <ul>
         {order?.order?.products &&
         order?.order?.products.map((product) => (

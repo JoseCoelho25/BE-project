@@ -9,7 +9,9 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/config.env' });
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-
+// @desc      Get all products in db
+// @route     GET /api/
+// @access    Private
 exports.getProducts = asyncHandler(async(req,res,next) => {
     const products = await Product.find();
 
@@ -19,6 +21,10 @@ exports.getProducts = asyncHandler(async(req,res,next) => {
     res.status(200).json({success:true, count:products.length, data:products})
 })
 
+
+// @desc      Get single product from db
+// @route     GET /api/products/productId
+// @access    Private
 exports.getProduct = asyncHandler(async(req,res,next) => {
 
     const product = await Product.findById(req.params.productId)
@@ -30,6 +36,10 @@ exports.getProduct = asyncHandler(async(req,res,next) => {
     res.status(201).json({success:true, data:product})
 })
 
+
+// @desc      Create cart on user model
+// @route     POST /api/cart
+// @access    Private
 exports.postCart = asyncHandler(async (req, res, next) => {
  
     const product = await Product.findById(req.body._id);
@@ -64,6 +74,10 @@ exports.postCart = asyncHandler(async (req, res, next) => {
   });
 //
 
+
+// @desc      Get user cart
+// @route     GET /api/cart
+// @access    Private
 exports.getCart = asyncHandler(async(req,res,next) => {
 
     userId = req.user._id
@@ -76,6 +90,10 @@ exports.getCart = asyncHandler(async(req,res,next) => {
     res.status(200).json({success: true, data:user.cart.items})
 })
 
+
+// @desc      Remove product from cart
+// @route     DELETE /api/cart
+// @access    Private
 exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
   const productId = req.body.productId;
   
@@ -104,6 +122,10 @@ exports.deleteItemFromCart = asyncHandler(async (req, res, next) => {
   });
 });
 
+
+// @desc      Increase product quantity in cart
+// @route     PUT /api/cart/addItemToCart
+// @access    Private
 exports.increaseCartQuantity = asyncHandler(async(req,res,next) => {
   const productId = req.body.productId;
   
@@ -132,6 +154,10 @@ exports.increaseCartQuantity = asyncHandler(async(req,res,next) => {
   
 })
 
+
+// @desc      Decrease product quantity in cart
+// @route     PUT /api/cart/descreaseItemToCart
+// @access    Private
 exports.decreaseCartQuantity = asyncHandler(async(req,res,next) => {
   const productId = req.body.productId;
   
@@ -161,6 +187,9 @@ exports.decreaseCartQuantity = asyncHandler(async(req,res,next) => {
 })
 
 
+// @desc      Create stripe payment session
+// @route     POST /api/checkout
+// @access    Private
 exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
   const userId = req.user._id;
 
@@ -197,6 +226,9 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
   }) 
 
 
+// @desc      Create stripe payment intent
+// @route     POST /api/create-payment-intent
+// @access    Private
   exports.createPaymentIntent = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
   
@@ -232,6 +264,10 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
     });
   });
   
+
+// @desc      Create order
+// @route     POST /api/orders
+// @access    Private
   exports.createOrder = asyncHandler(async(req,res,next) => {
      // Parse the data from the user cart cookie
      const user = JSON.parse(req.cookies.user);
@@ -266,6 +302,10 @@ exports.createCheckoutSession = asyncHandler(async(req,res,next) => {
   res.status(200).json({orders})
   })
 
+
+// @desc      Get order
+// @route     GET /api/orders/orderId
+// @access    Private
   exports.getOrder = asyncHandler(async(req,res,next) => {
     const order = await Order.findById(req.params.orderId)
 

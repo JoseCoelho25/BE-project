@@ -4,6 +4,10 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const { uuid } = require('uuidv4');
 
+
+// @desc      Create a product
+// @route     POST /api/admin/add-product
+// @access    Private
 exports.postNewProduct = asyncHandler(async(req,res,next) => {
   const userId = req.user._id
 
@@ -43,7 +47,9 @@ exports.postNewProduct = asyncHandler(async(req,res,next) => {
 })
 
 
-
+// @desc      Get all posted products
+// @route     GET /api/admin/products
+// @access    Private
 exports.getProducts = asyncHandler(async(req,res,next) => {
     const products = await Product.find();
 
@@ -53,6 +59,10 @@ exports.getProducts = asyncHandler(async(req,res,next) => {
     res.status(200).json({success:true, count:products.length, data:products})
 })
 
+
+// @desc      Get product to edit
+// @route     GET /api/admin/edit-products/:productId
+// @access    Private
 exports.getAdminProduct = asyncHandler(async(req,res,next) => {
     const product = await Product.findById(req.params.productId)
 
@@ -62,6 +72,10 @@ exports.getAdminProduct = asyncHandler(async(req,res,next) => {
 
     res.status(201).json({success:true, data:product})
 })
+
+// @desc      Update edited product
+// @route     PUT /api/admin/edit-products/:productId
+// @access    Private
 exports.updateEditProduct = asyncHandler(async(req,res,next) => {
 
   // Extract the category array from the request body
@@ -115,6 +129,9 @@ exports.updateEditProduct = asyncHandler(async(req,res,next) => {
 });
 
 
+// @desc      Update edited photo
+// @route     PUT /api/admin/edit-products/:productId/photo
+// @access    Private
 exports.adminPhotoUpload = asyncHandler(async(req,res,next) => {
     const product = await Product.findById(req.params.productId)
 
@@ -163,6 +180,10 @@ exports.adminPhotoUpload = asyncHandler(async(req,res,next) => {
   })
 })
 
+
+// @desc      Delete product from db
+// @route     DELETE /api/admin/products
+// @access    Private
 exports.deleteAdminProduct = asyncHandler(async(req,res,next) => {
 
   const productId = req.body.productId
