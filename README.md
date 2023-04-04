@@ -56,7 +56,7 @@ First the server
 ``cd backend``  
 To install the dependencies run:  
 ``npm install``  
-Create a .env file based on the provided env.default file at the root folder, and fill in the required environment variables.  
+Create a .env file based on the provided env.default file at the config file, and fill in the required environment variables.  
 
 Seed the database with some initial data by running the following command:  
 ``node seeder.js -i``  
@@ -76,7 +76,7 @@ To start local development server run:
 The client will be available at http://localhost:5173  
 
 
-API Documentation
+![Alt Text](https://i.gyazo.com/96bd426f755cb46a36b5c2735a4ef98c.gif)
 
 
 Tips or advice on how to improve are very welcome, thank you all!
