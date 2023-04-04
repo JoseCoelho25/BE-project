@@ -76,7 +76,7 @@ To start local development server run:
 The client will be available at http://localhost:5173  
 
 
-API Documentation
+![Alt Text](https://i.gyazo.com/96bd426f755cb46a36b5c2735a4ef98c.gif)
 
 
 Tips or advice on how to improve are very welcome, thank you all!
